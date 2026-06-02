@@ -1,0 +1,191 @@
+<div class="container-fluid">
+
+  <div class="row">
+
+    <div class="col-2 bg-dark text-white vh-100 p-3 d-flex flex-column">
+
+      <h2 class="fw-bold mb-4">
+        MENU
+      </h2>
+
+      <ul class="nav flex-column">
+
+  <li class="nav-item mb-2">
+    <a routerLink="/agenda"
+      class="btn btn-outline-light w-100 text-start">
+      Agenda
+    </a>
+  </li>
+
+  <li class="nav-item mb-2" *ngIf="isAdmin()">
+    <a routerLink="/especialidades"
+       class="btn btn-outline-light w-100 text-start">
+      Especialidades/Profissionais
+    </a>
+  </li>
+
+  <li class="nav-item mb-2">
+    <a routerLink="/diarias"
+       class="btn btn-outline-light w-100 text-start">
+      Registro Diário
+    </a>
+  </li>
+
+  <li class="nav-item mb-2">
+    <a routerLink="/relatorios"
+       class="btn btn-outline-light w-100 text-start">
+      Relatório
+    </a>
+  </li>
+
+  <li class="nav-item mb-2" *ngIf="isAdmin()">
+    <a routerLink="/usuarios"
+       class="btn btn-outline-light w-100 text-start">
+      Usuários
+    </a>
+  </li>
+
+   <li class="nav-item mb-2">
+    <a routerLink="/"
+       class="btn btn-outline-light w-100 text-start">
+      Sair
+    </a>
+  </li>
+
+</ul>
+
+      <div class="mt-auto">
+
+       <button
+       class="btn btn-outline-light w-100"
+       (click)="mostrarSobre = true">
+
+        Sobre o sistema
+
+        </button>
+
+      </div>
+
+    </div>
+
+    <div class="col-10 p-4 bg-light min-vh-100">
+
+      <h2 class="fw-bold">
+        Bem-vindo, {{ nomeUsuario }}
+      </h2>
+
+      <div class="row mt-4 g-4">
+
+        <div class="col-md-4">
+          <div class="card border-0 shadow-lg rounded-4 p-4 bg-primary text-white">
+
+            <div class="d-flex justify-content-between align-items-center">
+
+              <div>
+
+                <h6 class="text-uppercase">
+                  Total Diárias
+                </h6>
+
+                <h1 class="fw-bold mt-3">
+                  {{ totalDiarias }}
+                </h1>
+
+              </div>
+
+              <i class="bi bi-clipboard2-pulse fs-1"></i>
+
+            </div>
+
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="card border-0 shadow-lg rounded-4 p-4 bg-success text-white">
+
+            <div class="d-flex justify-content-between align-items-center">
+
+              <div>
+
+                <h6 class="text-uppercase">
+                  Especialidades
+                </h6>
+
+                <h1 class="fw-bold mt-3">
+                  {{ totalEspecialidades }}
+                </h1>
+
+              </div>
+
+              <i class="bi bi-hospital fs-1"></i>
+
+            </div>
+
+          </div>
+        </div>
+
+        <div class="col-md-4" *ngIf="isAdmin()">
+          <div class="card border-0 shadow-lg rounded-4 p-4 bg-dark text-white">
+
+            <div class="d-flex justify-content-between align-items-center">
+
+              <div>
+
+                <h6 class="text-uppercase">
+                  Usuários
+                </h6>
+
+                <h1 class="fw-bold mt-3">
+                  {{ totalUsuarios }}
+                </h1>
+
+              </div>
+
+              <i class="bi bi-people fs-1"></i>
+
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<div
+  *ngIf="mostrarSobre"
+  class="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center"
+  style="background: rgba(0,0,0,0.5); z-index: 9999;">
+
+  <div class="bg-white p-4 rounded shadow" style="width: 420px;">
+
+    <h4 class="mb-3">Sobre o sistema</h4>
+
+    <p>
+      Sistema de controle de dados para gerenciamento de atendimentos,
+      registros diários e relatórios por especialidade.
+    </p>
+
+    <p>
+      Objetivo: organizar informações e facilitar a tomada de decisão.
+    </p>
+
+    <div class="text-end">
+
+      <button
+        class="btn btn-secondary"
+        (click)="mostrarSobre = false">
+
+        Fechar
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>

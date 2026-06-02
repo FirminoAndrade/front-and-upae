@@ -1,0 +1,210 @@
+<div class="container mt-4">
+
+    <div class="card shadow p-4">
+
+        <h3 class="mb-4">
+
+            Cadastro de Usuários
+
+        </h3>
+
+        <div class="row g-3">
+
+            <div class="col-md-6">
+
+                <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Nome"
+                    [(ngModel)]="nome">
+
+            </div>
+
+            <div class="col-md-6">
+
+                <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Login"
+                    [(ngModel)]="login">
+
+            </div>
+
+            <div class="col-md-4">
+
+                <input
+                    type="password"
+                    class="form-control"
+                    placeholder="Senha"
+                    [(ngModel)]="senha">
+
+            </div>
+
+            <div class="col-md-4">
+
+                <select
+                    class="form-select"
+                    [(ngModel)]="perfil">
+
+                    <option value="ADMIN">
+                        ADMIN
+                    </option>
+
+                    <option value="RECEPCAO">
+                        RECEPCAO
+                    </option>
+
+                </select>
+
+            </div>
+
+            <div class="col-md-4 d-flex align-items-center">
+
+                <input
+                    type="checkbox"
+                    class="form-check-input me-2"
+                    [(ngModel)]="ativo">
+
+                <label>
+
+                    Ativo
+
+                </label>
+
+            </div>
+
+            <div class="col-md-12">
+
+                <button
+                    class="btn btn-primary me-2"
+                    (click)="salvar()">
+
+                    {{ idEdicao ? 'Atualizar' : 'Salvar' }}
+
+                </button>
+
+                <button
+                    class="btn btn-secondary"
+                    (click)="cancelar()">
+
+                    Cancelar
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="card shadow p-4 mt-4">
+
+        <table
+            mat-table
+            [dataSource]="dataSource">
+
+            <ng-container matColumnDef="id">
+
+                <th mat-header-cell *matHeaderCellDef>
+                    Identificador
+                </th>
+
+                <td mat-cell *matCellDef="let item">
+                    {{ item.id }}
+                </td>
+
+            </ng-container>
+
+            <ng-container matColumnDef="nome">
+
+                <th mat-header-cell *matHeaderCellDef>
+                    Nome
+                </th>
+
+                <td mat-cell *matCellDef="let item">
+                    {{ item.nome }}
+                </td>
+
+            </ng-container>
+
+            <ng-container matColumnDef="login">
+
+                <th mat-header-cell *matHeaderCellDef>
+                    Login
+                </th>
+
+                <td mat-cell *matCellDef="let item">
+                    {{ item.login }}
+                </td>
+
+            </ng-container>
+
+            <ng-container matColumnDef="perfil">
+
+                <th mat-header-cell *matHeaderCellDef>
+                    Perfil
+                </th>
+
+                <td mat-cell *matCellDef="let item">
+                    {{ item.perfil }}
+                </td>
+
+            </ng-container>
+
+            <ng-container matColumnDef="ativo">
+
+                <th mat-header-cell *matHeaderCellDef>
+                    Ativo
+                </th>
+
+                <td mat-cell *matCellDef="let item">
+
+                    {{ item.ativo ? 'SIM' : 'NÃO' }}
+
+                </td>
+
+            </ng-container>
+
+            <ng-container matColumnDef="acoes">
+
+                <th mat-header-cell *matHeaderCellDef>
+                    Ações
+                </th>
+
+                <td mat-cell *matCellDef="let item">
+
+                    <button
+                        class="btn btn-warning btn-sm me-2"
+                        (click)="editar(item)">
+
+                        <i class="bi bi-pencil"></i>
+
+                    </button>
+
+                    <button
+                        class="btn btn-danger btn-sm"
+                        (click)="remover(item.id)">
+
+                        <i class="bi bi-trash"></i>
+
+                    </button>
+
+                </td>
+
+            </ng-container>
+
+            <tr
+                mat-header-row
+                *matHeaderRowDef="displayedColumns">
+            </tr>
+
+            <tr
+                mat-row
+                *matRowDef="let row; columns: displayedColumns">
+            </tr>
+
+        </table>
+
+    </div>
+
+</div>

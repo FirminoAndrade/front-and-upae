@@ -1,0 +1,229 @@
+<div class="container mt-4">
+
+  <div class="card shadow p-4">
+
+    <h3 class="mb-4">
+      Relatório por Especialidade
+    </h3>
+
+    <!-- FILTROS -->
+
+    <div class="row g-3 mb-4">
+
+      <div class="col-md-3">
+
+        <label class="form-label">
+          Data Início
+        </label>
+
+        <input
+          type="date"
+          class="form-control"
+          [(ngModel)]="dataInicio">
+
+      </div>
+
+      <div class="col-md-3">
+
+        <label class="form-label">
+          Data Fim
+        </label>
+
+        <input
+          type="date"
+          class="form-control"
+          [(ngModel)]="dataFim">
+
+      </div>
+
+      <div class="col-md-6 d-flex align-items-end gap-2">
+
+        <button
+          class="btn btn-primary"
+          (click)="buscarRelatorio()">
+
+          Buscar
+
+        </button>
+
+        <button
+          class="btn btn-secondary"
+          (click)="imprimir()">
+
+          Imprimir
+
+        </button>
+
+      </div>
+
+    </div>
+
+    <div class="row g-3 mb-4">
+
+  <!-- FILTRO ESPECIALIDADE -->
+
+  <div class="col-md-3">
+
+    <label class="form-label">
+      Especialidade
+    </label>
+
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Filtrar especialidade"
+      [(ngModel)]="filtroEspecialidade"
+      (input)="filtrar()">
+
+  </div>
+
+  <!-- FILTRO PROFISSIONAL -->
+
+  <div class="col-md-3">
+
+    <label class="form-label">
+      Profissional
+    </label>
+
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Filtrar profissional"
+      [(ngModel)]="filtroProfissional"
+      (input)="filtrar()">
+
+  </div>
+
+</div>
+
+    <!-- TABELA -->
+
+    <div class="table-responsive">
+
+      <table class="table table-bordered table-striped">
+
+        <thead class="table-dark">
+
+          <tr>
+
+            <th>
+              Especialidade
+            </th>
+
+            <th>
+              Profissional
+            </th>
+
+            <th>
+              Agendados
+            </th>
+
+            <th>
+              Compareceram
+            </th>
+
+            <th>
+              Faltaram
+            </th>
+
+            <th>
+              Interno
+            </th>
+
+             <th>
+              Interconsulta
+            </th>
+
+            <th>
+              Externo
+            </th>
+
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          <tr *ngFor="let item of relatorios">
+
+            <td>
+              {{ item.especialidade }}
+            </td>
+
+            <td>
+              {{ item.profissional }}
+            </td>
+
+            <td>
+              {{ item.totalAgendados }}
+            </td>
+
+            <td>
+              {{ item.compareceram }}
+            </td>
+
+            <td>
+              {{ item.faltaram }}
+            </td>
+
+            <td>
+              {{ item.interno }}
+            </td>
+
+            <td>
+              {{ item.interconsulta }}
+            </td>
+
+            <td>
+              {{ item.externo }}
+            </td>
+
+          </tr>
+
+        </tbody>
+
+        <!-- TOTAL -->
+
+        <tfoot class="table-secondary fw-bold">
+
+          <tr>
+
+            <td colspan="2">
+              TOTAL
+            </td>
+
+            <td>
+              {{ getTotalAgendados() }}
+            </td>
+
+            <td>
+              {{ getTotalCompareceram() }}
+            </td>
+
+            <td>
+              {{ getTotalFaltaram() }}
+            </td>
+
+            <td>
+              {{ getTotalInterno() }}
+            </td>
+
+            <td>
+              {{ getTotalInterconsulta() }}
+            </td>
+
+            <td>
+              {{ getTotalExterno() }}
+            </td>
+
+          </tr>
+
+        </tfoot>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</div>

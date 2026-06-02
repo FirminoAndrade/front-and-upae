@@ -1,0 +1,44 @@
+@media print {
+
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  .container,
+  .container-fluid,
+  .card {
+    margin: 0 !important;
+    padding: 10px !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  button,
+  .btn,
+  .no-print {
+    display: none !important;
+  }
+
+  table {
+    width: 100% !important;
+    border-collapse: collapse;
+    font-size: 12px;
+  }
+
+  th,
+  td {
+    padding: 4px !important;
+  }
+
+  @page {
+    size: A4 portrait;
+    margin: 8mm;
+  }
+
+  html,
+  body {
+    height: auto !important;
+    overflow: hidden !important;
+  }
+}

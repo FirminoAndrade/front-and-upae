@@ -1,0 +1,369 @@
+<div class="container-fluid mt-3 no-print">
+
+  <div *ngIf="podeEditarAgenda()">
+
+  <div class="card shadow p-3 mb-3">
+
+    <h4 class="mb-3">
+
+      Cadastro de Agenda
+
+    </h4>
+
+    <div class="row g-2">
+
+      <!-- PRIMEIRA LINHA -->
+
+      <div class="col-md-2">
+
+        <input
+          type="date"
+          class="form-control"
+          [(ngModel)]="data">
+
+      </div>
+
+      <div class="col-md-4">
+
+  <select
+    class="form-select"
+    [(ngModel)]="especialidade">
+
+    <option value="">
+      Especialidade
+    </option>
+
+    <option
+      *ngFor="let item of especialidades"
+      [value]="item.nome">
+
+      {{ item.nome }}
+
+    </option>
+
+  </select>
+
+</div>
+
+      <div class="col-md-4">
+
+  <select
+    class="form-select"
+    [(ngModel)]="profissional">
+
+    <option value="">
+      Profissional
+    </option>
+
+    <option
+      *ngFor="let item of profissionais"
+      [value]="item.nome">
+
+      {{ item.nome }}
+
+    </option>
+
+  </select>
+
+</div>
+
+      <div class="col-md-2">
+
+        <select
+          class="form-select"
+          [(ngModel)]="turno">
+
+          <option value="">
+            Turno
+          </option>
+
+          <option value="MANHA">
+            Manhã
+          </option>
+
+          <option value="TARDE">
+            Tarde
+          </option>
+
+        </select>
+
+      </div>
+
+      <!-- SEGUNDA LINHA -->
+
+      <div class="col-md-3">
+
+        <input
+          type="number"
+          class="form-control"
+          placeholder="Agendados"
+          [(ngModel)]="agendados">
+
+      </div>
+
+      <div class="col-md-3 d-flex align-items-center">
+
+        <input
+          type="checkbox"
+          class="form-check-input me-2"
+          [(ngModel)]="confirmado">
+
+        Confirmado
+
+      </div>
+
+      <div class="col-md-6 d-flex gap-2">
+
+        <button
+          class="btn btn-primary"
+          (click)="salvar()">
+
+          {{ idEdicao ? 'Atualizar' : 'Salvar' }}
+
+        </button>
+
+        <button
+          class="btn btn-secondary"
+          (click)="cancelar()">
+
+          Cancelar
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+  <!-- RESTANTE -->
+
+  <div class="row">
+
+    <!-- CALENDÁRIO -->
+
+    <div class="col-md-8">
+
+      <div class="card shadow p-3 calendario-card">
+
+        <h4 class="mb-3">
+
+          Agenda Mensal
+
+        </h4>
+
+       <div class="d-flex justify-content-between align-items-center mb-3">
+
+  <div class="d-flex gap-2">
+
+    <button
+      class="btn btn-outline-primary btn-sm"
+      (click)="mesAnterior()">
+
+      <i class="bi bi-chevron-left"></i>
+
+    </button>
+
+    <button
+      class="btn btn-outline-primary btn-sm"
+      (click)="hoje()">
+
+      Hoje
+
+    </button>
+
+    <button
+      class="btn btn-outline-primary btn-sm"
+      (click)="proximoMes()">
+
+      <i class="bi bi-chevron-right"></i>
+
+    </button>
+
+  </div>
+
+ <div class="w-100 position-relative d-flex justify-content-center align-items-center">
+
+  <h3 class="m-0 text-capitalize fw-bold">
+
+    {{ viewDate | date:'MMMM yyyy':'':'pt-BR' }}
+
+  </h3>
+
+  <button
+    class="btn btn-success position-absolute end-0"
+    style="padding: 5px 12px;"
+    (click)="imprimirAgenda()">
+
+    <i class="bi bi-printer"></i>
+
+  </button>
+
+</div>
+
+</div>
+
+        <mwl-calendar-month-view
+
+          [viewDate]="viewDate"
+
+          [events]="events"
+
+          [locale]="locale"
+
+          (dayClicked)="dayClicked($event.day)">
+
+        </mwl-calendar-month-view>
+
+      </div>
+
+    </div>
+
+    <div class="col-md-4">
+
+  <div class="card shadow p-3 agenda-lateral">
+
+    <h4 class="mb-3">
+
+      Agenda do Dia
+
+    </h4>
+
+    <div *ngIf="agendasDia.length === 0">
+
+      Nenhuma agenda.
+
+    </div>
+
+    <!-- SCROLL -->
+    <div class="agenda-scroll">
+
+    <div
+  class="card mb-2 cursor-pointer"
+  *ngFor="let item of agendasDia"
+  (click)="editar(item)">
+
+  <div class="card-body">
+
+    <h5>
+
+      {{ item.especialidade }}
+
+    </h5>
+
+    <p>
+
+      {{ item.profissional }}
+
+    </p>
+
+    <p>
+
+      {{ item.agendados }} agendados
+
+    </p>
+
+    <p>
+
+      {{ item.turno === 'MANHA' ? 'Manhã' : 'Tarde' }}
+
+    </p>
+
+  </div>
+
+</div>
+
+    </div>
+
+  </div>
+
+</div>
+
+  </div>
+
+</div>
+
+
+<!-- IMPRESSÃO -->
+
+<div class="print-area">
+
+  <h2 class="text-center mb-4">
+
+    Agenda Mensal
+
+  </h2>
+
+  <h4 class="text-center mb-4 text-capitalize">
+
+    {{ viewDate | date:'MMMM yyyy':'':'pt-BR' }}
+
+  </h4>
+
+  <div *ngFor="let grupo of agendasAgrupadas">
+
+    <div class="mb-4">
+
+      <h5 class="border-bottom pb-2">
+
+        {{ grupo.data | date:'dd/MM/yyyy' }}
+
+      </h5>
+
+      <table class="table table-bordered">
+
+        <thead>
+
+          <tr>
+
+            <th>Especialidade</th>
+
+            <th>Profissional</th>
+
+            <th>Turno</th>
+
+            <th>Agendados</th>
+
+            <th>Confirmado</th>
+
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          <tr *ngFor="let item of grupo.itens">
+
+            <td>
+              {{ item.especialidade }}
+            </td>
+
+            <td>
+              {{ item.profissional }}
+            </td>
+
+            <td>
+              {{ item.turno }}
+            </td>
+
+            <td>
+              {{ item.agendados }}
+            </td>
+
+            <td>
+              {{ item.confirmado ? 'SIM' : 'NÃO' }}
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</div>

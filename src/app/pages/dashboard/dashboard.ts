@@ -1,0 +1,91 @@
+import { CommonModule } from '@angular/common';
+
+import {
+  Component,
+  OnInit,
+  ChangeDetectorRef,
+   inject,
+  PLATFORM_ID
+} from '@angular/core';
+
+import { RouterModule } from '@angular/router';
+
+import { DashboardService } from '../../core/services/dashboard';
+import { isPlatformBrowser } from '@angular/common';
+
+@Component({
+  selector: 'app-dashboard',
+
+  standalone: true,
+
+  imports: [
+    CommonModule,
+    RouterModule
+  ],
+
+  templateUrl: './dashboard.html',
+
+  styleUrls: ['./dashboard.css']
+})
+export class Dashboard implements OnInit {
+  
+  platformId = inject(PLATFORM_ID);
+
+  nomeUsuario = '';
+
+  usuario: any;
+
+  dataAtual = new Date();
+
+  mostrarSobre = false;
+
+  totalDiarias = 0;
+  totalEspecialidades = 0;
+  totalUsuarios = 0;
+
+  constructor(
+    private service: DashboardService,
+    private cd: ChangeDetectorRef
+  ) {}
+
+  ngOnInit(): void {
+
+    if (isPlatformBrowser(this.platformId)) {
+
+      const raw = localStorage.getItem('usuario');
+
+      if (raw) {
+
+        this.usuario = JSON.parse(raw);
+
+        this.nomeUsuario = this.usuario?.nome;
+      }
+    }
+
+    this.carregarTotais();
+  }
+
+  isAdmin(): boolean {
+    return this.usuario?.perfil === 'ADMIN';
+  }
+
+  isUsuario(): boolean {
+    return this.usuario?.perfil === 'USUARIO';
+  }
+
+  carregarTotais() {
+
+    this.service.buscarTotais()
+      .subscribe({
+
+        next: (res: any) => {
+
+          this.totalDiarias = Number(res.totalDiarias);
+          this.totalEspecialidades = Number(res.totalEspecialidades);
+          this.totalUsuarios = Number(res.totalUsuarios);
+
+          this.cd.detectChanges();
+        }
+      });
+  }
+}
