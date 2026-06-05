@@ -88,4 +88,9 @@ export class Dashboard implements OnInit {
         }
       });
   }
+
+  logout() {
+    
+  localStorage.clear();
+}
 }

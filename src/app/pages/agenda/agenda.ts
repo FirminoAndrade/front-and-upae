@@ -129,14 +129,16 @@ isAdmin(): boolean {
 
 isAuxiliarAdmin(): boolean {
 
-  return this.usuario?.perfil === 'AXILIAR_ADMIN';
+  return this.usuario?.perfil === 'AUXILIAR_ADMIN';
 }
 
 podeEditarAgenda(): boolean {
 
-  return this.isAdmin()
-    ||
-    this.isAuxiliarAdmin();
+  return !!this.usuario &&
+         (
+           this.isAdmin() ||
+           this.isAuxiliarAdmin()
+         );
 }
 
 carregarEspecialidades() {
@@ -306,6 +308,26 @@ imprimirAgenda() {
 
     this.confirmado = item.confirmado;
   }
+
+  remover(id: number) {
+
+  if (!confirm('Deseja realmente remover esta agenda?')) {
+
+    return;
+  }
+
+  this.service.remover(id)
+    .subscribe({
+
+      next: () => {
+
+        this.listar();
+
+        this.cancelar();
+
+      }
+    });
+}
 
   cancelar() {
 

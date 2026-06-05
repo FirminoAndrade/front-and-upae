@@ -46,8 +46,7 @@ export const routes: Routes = [
   },
   {
     path: 'agenda',
-    component: AgendaComponent,
-    canActivate: [authGuard]
+    component: AgendaComponent
   },
   { 
     path: '**',

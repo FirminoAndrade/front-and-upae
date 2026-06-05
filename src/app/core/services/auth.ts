@@ -26,6 +26,11 @@ export class AuthService {
   });
 }
 
+logout() {
+
+  localStorage.clear();
+}
+
 mensagem(msg: string): void { 
   this._snack.open(msg, 'ok', { 
     horizontalPosition: 'center', 

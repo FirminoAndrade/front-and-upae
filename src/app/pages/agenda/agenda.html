@@ -223,61 +223,60 @@
 
     <div class="col-md-4">
 
-  <div class="card shadow p-3 agenda-lateral">
-
-    <h4 class="mb-3">
-
-      Agenda do Dia
-
-    </h4>
-
-    <div *ngIf="agendasDia.length === 0">
-
-      Nenhuma agenda.
-
-    </div>
-
-    <!-- SCROLL -->
-    <div class="agenda-scroll">
-
-    <div
-  class="card mb-2 cursor-pointer"
-  *ngFor="let item of agendasDia"
-  (click)="editar(item)">
+  <div class="card mb-2 cursor-pointer"
+  *ngFor="let item of agendasDia">
 
   <div class="card-body">
 
-    <h5>
+    <div
+      class="d-flex justify-content-between align-items-start">
 
-      {{ item.especialidade }}
+      <div
+        class="flex-grow-1"
+        (click)="editar(item)">
 
-    </h5>
+        <h5>
 
-    <p>
+          {{ item.especialidade }}
 
-      {{ item.profissional }}
+        </h5>
 
-    </p>
+        <p>
 
-    <p>
+          {{ item.profissional }}
 
-      {{ item.agendados }} agendados
+        </p>
 
-    </p>
+        <p>
 
-    <p>
+          {{ item.agendados }} agendados
 
-      {{ item.turno === 'MANHA' ? 'Manhã' : 'Tarde' }}
+        </p>
 
-    </p>
+        <p>
+
+          {{ item.turno === 'MANHA'
+            ? 'Manhã'
+            : 'Tarde' }}
+
+        </p>
+
+      </div>
+
+      <button
+        *ngIf="podeEditarAgenda()"
+        class="btn btn-sm btn-danger"
+        (click)="remover(item.id); $event.stopPropagation()">
+
+        <i class="bi bi-trash"></i>
+
+      </button>
+
+    </div>
 
   </div>
 
 </div>
-
-    </div>
-
-  </div>
 
 </div>
 
