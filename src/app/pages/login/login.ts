@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../../core/services/auth';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { finalize } from 'rxjs/operators';
 
@@ -11,7 +11,8 @@ import { finalize } from 'rxjs/operators';
 
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    RouterLink
   ],
 
   templateUrl: './login.html',
@@ -113,5 +114,13 @@ export class Login {
           }
         }
       });
+  }
+
+  buttonAgedar() {
+
+    localStorage.clear();
+
+    this.router.navigate(['/agenda']);
+
   }
 }

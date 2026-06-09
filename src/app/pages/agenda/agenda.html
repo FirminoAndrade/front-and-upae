@@ -1,10 +1,10 @@
-<div class="container-fluid mt-3 no-print">
+<div class="container-fluid no-print">
 
   <div *ngIf="podeEditarAgenda()">
 
   <div class="card shadow p-3 mb-3">
 
-    <h4 class="mb-3">
+    <h4 class="mb-2">
 
       Cadastro de Agenda
 
@@ -144,7 +144,7 @@
 
     <!-- CALENDÁRIO -->
 
-    <div class="col-md-8">
+    <div class="col-md-5">
 
       <div class="card shadow p-3 calendario-card">
 
@@ -223,60 +223,77 @@
 
     <div class="col-md-4">
 
-  <div class="card mb-2 cursor-pointer"
-  *ngFor="let item of agendasDia">
+  <div class="card shadow agenda-lateral">
 
-  <div class="card-body">
+    <div class="card-header py-2">
 
-    <div
-      class="d-flex justify-content-between align-items-start">
+      <h6 class="m-0">
+        Agenda do Dia
+      </h6>
+
+    </div>
+
+    <div class="agenda-scroll">
 
       <div
-        class="flex-grow-1"
-        (click)="editar(item)">
+        class="card mb-2 cursor-pointer agenda-item"
+        *ngFor="let item of agendasDia">
 
-        <h5>
+        <div class="card-body p-2">
 
-          {{ item.especialidade }}
+          <div
+            class="d-flex justify-content-between align-items-start">
 
-        </h5>
+            <div
+              class="flex-grow-1"
+              (click)="editar(item)">
 
-        <p>
+              <h6 class="mb-1">
 
-          {{ item.profissional }}
+                {{ item.especialidade }}
 
-        </p>
+              </h6>
 
-        <p>
+              <small class="d-block">
 
-          {{ item.agendados }} agendados
+                {{ item.profissional }}
 
-        </p>
+              </small>
 
-        <p>
+              <small class="d-block">
 
-          {{ item.turno === 'MANHA'
-            ? 'Manhã'
-            : 'Tarde' }}
+                {{ item.agendados }} agendados
 
-        </p>
+              </small>
+
+              <small>
+
+                {{ item.turno === 'MANHA'
+                  ? 'Manhã'
+                  : 'Tarde' }}
+
+              </small>
+
+            </div>
+
+            <button
+              *ngIf="podeEditarAgenda()"
+              class="btn btn-sm btn-danger"
+              (click)="remover(item.id); $event.stopPropagation()">
+
+              <i class="bi bi-trash"></i>
+
+            </button>
+
+          </div>
+
+        </div>
 
       </div>
-
-      <button
-        *ngIf="podeEditarAgenda()"
-        class="btn btn-sm btn-danger"
-        (click)="remover(item.id); $event.stopPropagation()">
-
-        <i class="bi bi-trash"></i>
-
-      </button>
 
     </div>
 
   </div>
-
-</div>
 
 </div>
 

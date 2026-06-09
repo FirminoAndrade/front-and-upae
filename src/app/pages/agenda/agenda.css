@@ -1,53 +1,49 @@
 html,
 body {
 
-  height: 100%;
+  height: 100vh;
 
   margin: 0;
 
-  overflow-x: hidden;
+  overflow: hidden;
 }
 
 /* CONTAINER */
 
 .container-fluid {
 
-  min-height: 100vh;
+  height: 100vh;
 
   overflow: hidden;
+
+  padding: 10px;
 }
 
 /* CALENDÁRIO */
 
 .calendario-card {
 
-  height: auto;
+  height: calc(100vh - 100px);
 
-  overflow: hidden;
+  overflow: auto;
 }
 
 /* LATERAL */
 
 .agenda-lateral {
 
-  height: 78vh;
+  height: calc(100vh - 100px);
 
-  display: flex;
-
-  flex-direction: column;
+  overflow: hidden;
 }
 
-/* SCROLL APENAS NOS CARDS */
+/* SCROLL DOS CARDS */
 
 .agenda-scroll {
 
-  flex: 1;
+  height: 100%;
 
   overflow-y: auto;
-
-  overflow-x: hidden;
-
-  padding-right: 5px;
 }
 
 /* SCROLL */
@@ -79,7 +75,7 @@ body {
 
   overflow: hidden;
 
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
 
 /* HEADER */
@@ -90,7 +86,9 @@ body {
 
   color: white;
 
-  font-weight: bold;
+  font-weight: 600;
+
+  font-size: 13px;
 
   text-transform: capitalize;
 }
@@ -99,7 +97,7 @@ body {
 
 .cal-month-view .cal-day-cell {
 
-  min-height: 80px;
+  min-height: 60px;
 
   border-right: 1px solid #eee;
 
@@ -115,7 +113,7 @@ body {
   cursor: pointer;
 }
 
-/* NÚMEROS */
+/* NÚMERO DOS DIAS */
 
 .cal-month-view .cal-day-number {
 
@@ -125,9 +123,9 @@ body {
 
   font-weight: 700 !important;
 
-  font-size: 18px;
+  font-size: 14px;
 
-  margin: 8px;
+  margin: 4px;
 
   float: right;
 }
@@ -143,18 +141,18 @@ body {
 
 .cal-month-view .cal-events {
 
-  margin-top: 30px;
+  margin-top: 20px;
 
-  padding: 4px;
+  padding: 2px;
 }
 
 .cal-month-view .cal-event {
 
   border-radius: 4px;
 
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 
-  min-height: 8px;
+  min-height: 6px;
 }
 
 /* REMOVE EXPANSÃO */
@@ -170,7 +168,7 @@ body {
 
   cursor: pointer;
 
-  transition: 0.2s;
+  transition: all 0.2s ease;
 }
 
 .cursor-pointer:hover {
@@ -180,6 +178,70 @@ body {
   border: 1px solid #0d6efd;
 
   background: #f8fbff;
+}
+
+/* CARDS DA AGENDA */
+
+.agenda-scroll .card {
+
+  margin-bottom: 6px;
+}
+
+.agenda-scroll .card-body {
+
+  padding: 8px;
+}
+
+.agenda-scroll h5,
+.agenda-scroll h6 {
+
+  font-size: 0.9rem;
+
+  margin-bottom: 4px;
+
+  font-weight: 600;
+}
+
+.agenda-scroll p {
+
+  margin-bottom: 2px;
+
+  font-size: 0.8rem;
+}
+
+.agenda-scroll small {
+
+  font-size: 0.75rem;
+}
+
+/* FORM */
+
+.form-control,
+.form-select {
+
+  font-size: 0.85rem;
+}
+
+.btn {
+
+  font-size: 0.85rem;
+}
+
+/* TÍTULOS */
+
+h3 {
+
+  font-size: 1.3rem;
+}
+
+h4 {
+
+  font-size: 1.1rem;
+}
+
+h5 {
+
+  font-size: 1rem;
 }
 
 /* IMPRESSÃO */
