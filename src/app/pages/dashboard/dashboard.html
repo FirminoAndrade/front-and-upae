@@ -25,6 +25,13 @@
   </li>
 
   <li class="nav-item mb-2">
+    <a routerLink="/lista-espera"
+       class="btn btn-outline-light w-100 text-start">
+      Lista de Espera
+    </a>
+  </li>
+
+  <li class="nav-item mb-2">
     <a routerLink="/diarias"
        class="btn btn-outline-light w-100 text-start">
       Registro De Consultas
@@ -148,6 +155,62 @@
 
           </div>
         </div>
+
+        <div class="col-md-4">
+
+  <div class="card border-0 shadow-lg rounded-4 p-4 bg-info text-white">
+
+    <div class="d-flex justify-content-between align-items-center">
+
+      <div>
+
+        <h6 class="text-uppercase">
+          Confirmados
+        </h6>
+
+        <h1 class="fw-bold mt-3">
+
+          {{ totalConfirmadosLista }}
+
+        </h1>
+
+      </div>
+
+      <i class="bi bi-check-circle-fill fs-1"></i>
+
+    </div>
+
+  </div>
+
+</div>   
+
+<div class="col-md-4">
+
+  <div class="card border-0 shadow-lg rounded-4 p-4 bg-warning text-dark">
+
+    <div class="d-flex justify-content-between align-items-center">
+
+      <div>
+
+        <h6 class="text-uppercase">
+          Lista de Espera
+        </h6>
+
+        <h1 class="fw-bold mt-3">
+
+          {{ totalListaEspera }}
+
+        </h1>
+
+      </div>
+
+      <i class="bi bi-person-lines-fill fs-1"></i>
+
+    </div>
+
+  </div>
+
+</div>
 
       </div>
 

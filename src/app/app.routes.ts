@@ -7,6 +7,7 @@ import { Diarias } from './pages/diarias/diarias';
 import { Relatorio } from './pages/relatorio/relatorio';
 import { authGuard } from './core/guards/auth-guard';
 import { AgendaComponent } from './pages/agenda/agenda';
+import { ListaEsperaComponent } from './pages/lista-espera-component/lista-espera-component';
 
 export const routes: Routes = [
 
@@ -38,7 +39,11 @@ export const routes: Routes = [
     component: Diarias,
     canActivate: [authGuard]
   },
-
+  {
+  path: 'lista-espera',
+    component: ListaEsperaComponent,
+    canActivate: [authGuard]
+  },
   {
     path: 'relatorios',
     component: Relatorio,

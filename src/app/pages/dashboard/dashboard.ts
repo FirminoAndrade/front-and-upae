@@ -42,6 +42,8 @@ export class Dashboard implements OnInit {
   totalDiarias = 0;
   totalEspecialidades = 0;
   totalUsuarios = 0;
+  totalListaEspera = 0;
+  totalConfirmadosLista = 0;
 
   constructor(
     private service: DashboardService,
@@ -83,6 +85,8 @@ export class Dashboard implements OnInit {
           this.totalDiarias = Number(res.totalDiarias);
           this.totalEspecialidades = Number(res.totalEspecialidades);
           this.totalUsuarios = Number(res.totalUsuarios);
+          this.totalListaEspera = Number(res.totalListaEspera);
+          this.totalConfirmadosLista = Number(res.totalConfirmadosLista);
 
           this.cd.detectChanges();
         }
