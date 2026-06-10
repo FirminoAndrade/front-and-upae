@@ -1,247 +1,149 @@
 <div class="container-fluid mt-3">
-
   <div class="row g-2">
-
-    <!-- ESPECIALIDADES -->
+    
     <div class="col-6">
-
       <div class="card shadow-sm h-100">
-
         <div class="card-body p-2 d-flex flex-column">
+          <h3 class="mb-4">Especialidades</h3>
 
-          <h3 class="mb-4">
-            Especialidades
-          </h3>
-
-          <!-- FORM -->
           <div class="row g-1 mb-2">
-
             <div class="col-8">
-
               <input
                 type="text"
                 class="form-control form-control-sm"
                 placeholder="Especialidade"
-                [(ngModel)]="nome">
-
+                [(ngModel)]="nome"
+              />
             </div>
 
             <div class="col-4">
-
-              <button
-                class="btn btn-primary btn-sm w-100"
-                (click)="salvar()">
-
-                Salvar
-
-              </button>
-
+              <button class="btn btn-primary btn-sm w-100" (click)="salvar()">Salvar</button>
             </div>
-
           </div>
 
           <div class="mb-2">
-
-  <input
-    type="text"
-    class="form-control form-control-sm"
-    placeholder="Filtrar especialidade..."
-    (keyup)="aplicarFiltroEspecialidades($event)">
-
-</div>
+            <input
+              type="text"
+              class="form-control form-control-sm"
+              placeholder="Filtrar especialidade..."
+              (keyup)="aplicarFiltroEspecialidades($event)"
+            />
+          </div>
 
           <div class="table-responsive flex-grow-1">
-
-            <table
-  mat-table
-  [dataSource]="dataSource"
-  class="table table-sm align-middle w-100">
-
-              <!-- ID -->
+            <table mat-table [dataSource]="dataSource" class="table table-sm align-middle w-100">
+              
               <ng-container matColumnDef="id">
-
-                <th mat-header-cell *matHeaderCellDef>
-                  IDENTIFICADOR
-                </th>
+                <th mat-header-cell *matHeaderCellDef>IDENTIFICADOR</th>
 
                 <td mat-cell *matCellDef="let item">
                   {{ item.id }}
                 </td>
-
               </ng-container>
 
-              <!-- NOME -->
               <ng-container matColumnDef="nome">
-
-                <th mat-header-cell *matHeaderCellDef>
-                  ESPECIALIDADE
-                </th>
+                <th mat-header-cell *matHeaderCellDef>ESPECIALIDADE</th>
 
                 <td mat-cell *matCellDef="let item">
                   {{ item.nome }}
                 </td>
-
               </ng-container>
 
-              <tr
-                mat-header-row
-                *matHeaderRowDef="displayedColumns">
-              </tr>
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
 
-              <tr
-                mat-row
-                *matRowDef="let row; columns: displayedColumns;">
-              </tr>
-
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
             </table>
-
           </div>
 
-          <!-- PAGINAÇÃO -->
           <mat-paginator
             #paginatorEspecialidades
             [pageSize]="10"
             [pageSizeOptions]="[10, 20]"
-            showFirstLastButtons>
+            showFirstLastButtons
+          >
           </mat-paginator>
-
         </div>
-
       </div>
-
     </div>
 
-    <!-- PROFISSIONAIS -->
     <div class="col-6">
-
       <div class="card shadow-sm h-100">
-
         <div class="card-body p-2 d-flex flex-column">
+          <h3 class="mb-4">Profissionais</h3>
 
-          <h3 class="mb-4">
-            Profissionais
-          </h3>
-
-          <!-- FORM -->
           <div class="row g-1 mb-2">
-
             <div class="col-8">
-
               <input
                 type="text"
                 class="form-control form-control-sm"
                 placeholder="Nome"
-                [(ngModel)]="nomeProfissional">
-
+                [(ngModel)]="nomeProfissional"
+              />
             </div>
 
             <div class="col-4">
-
-              <button
-                class="btn btn-success btn-sm w-100"
-                (click)="salvarProfissional()">
-
+              <button class="btn btn-success btn-sm w-100" (click)="salvarProfissional()">
                 Salvar
-
               </button>
-
             </div>
-
           </div>
 
-         <div class="mb-2">
+          <div class="mb-2">
+            <input
+              type="text"
+              class="form-control form-control-sm"
+              placeholder="Filtrar profissional..."
+              (keyup)="aplicarFiltroProfissionais($event)"
+            />
+          </div>
 
-  <input
-    type="text"
-    class="form-control form-control-sm"
-    placeholder="Filtrar profissional..."
-    (keyup)="aplicarFiltroProfissionais($event)">
-
-</div>
-
-          <!-- TABELA -->
           <div class="table-responsive flex-grow-1">
-
-           <table
-  mat-table
-  [dataSource]="dataSourceProfissionais"
-  class="table table-sm align-middle w-100">
-
-              <!-- ID -->
+            <table
+              mat-table
+              [dataSource]="dataSourceProfissionais"
+              class="table table-sm align-middle w-100"
+            >
               <ng-container matColumnDef="id">
-
-                <th mat-header-cell *matHeaderCellDef>
-                  IDENTIFICADOR
-                </th>
+                <th mat-header-cell *matHeaderCellDef>IDENTIFICADOR</th>
 
                 <td mat-cell *matCellDef="let item">
                   {{ item.id }}
                 </td>
-
               </ng-container>
 
-              <!-- NOME -->
               <ng-container matColumnDef="nome">
-
-                <th mat-header-cell *matHeaderCellDef>
-                  NOME
-                </th>
+                <th mat-header-cell *matHeaderCellDef>NOME</th>
 
                 <td mat-cell *matCellDef="let item">
                   {{ item.nome }}
                 </td>
-
               </ng-container>
 
-              <!-- AÇÕES -->
-<ng-container matColumnDef="acoes">
+              <ng-container matColumnDef="acoes">
+                <th mat-header-cell *matHeaderCellDef>AÇÕES</th>
 
-  <th mat-header-cell *matHeaderCellDef>
-    AÇÕES
-  </th>
+                <td mat-cell *matCellDef="let item">
+                  <button class="btn btn-danger btn-sm me-2" (click)="removerProfissional(item.id)">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </td>
+              </ng-container>
 
-  <td mat-cell *matCellDef="let item">
+              <tr mat-header-row *matHeaderRowDef="displayedColumnsProfissionais"></tr>
 
-    <button
-  class="btn btn-danger btn-sm me-2"
-  (click)="removerProfissional(item.id)">
-
-  <i class="bi bi-trash"></i>
-
-</button>
-
-  </td>
-
-</ng-container>
-
-              <tr
-                mat-header-row
-                *matHeaderRowDef="displayedColumnsProfissionais">
-              </tr>
-
-              <tr
-                mat-row
-                *matRowDef="let row; columns: displayedColumnsProfissionais;">
-              </tr>
-
+              <tr mat-row *matRowDef="let row; columns: displayedColumnsProfissionais"></tr>
             </table>
-
           </div>
 
-          <!-- PAGINAÇÃO -->
           <mat-paginator
             #paginatorProfissionais
             [pageSize]="10"
             [pageSizeOptions]="[10, 20]"
-            showFirstLastButtons>
+            showFirstLastButtons
+          >
           </mat-paginator>
-
         </div>
-
       </div>
-
     </div>
-
   </div>
-
 </div>

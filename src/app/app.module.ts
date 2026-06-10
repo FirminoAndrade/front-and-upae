@@ -15,8 +15,7 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 @NgModule({
-  declarations: [
-  ],
+  declarations: [],
   imports: [
     RouterModule,
     BrowserModule,
@@ -35,6 +34,6 @@ import { CommonModule } from '@angular/common';
     CommonModule,
   ],
   providers: [],
-  bootstrap: []
+  bootstrap: [],
 })
-export class AppModule { }
+export class AppModule {}

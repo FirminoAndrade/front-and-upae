@@ -11,18 +11,12 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 @Component({
   selector: 'app-especialidades',
   standalone: true,
- imports: [
-  CommonModule,
-  FormsModule,
-  MatTableModule,
-  MatPaginatorModule
-],
+  imports: [CommonModule, FormsModule, MatTableModule, MatPaginatorModule],
   templateUrl: './especialidades.html',
   styleUrls: ['./especialidades.css'],
 })
 export class Especialidades implements OnInit, AfterViewInit {
-
-   @ViewChild('paginatorEspecialidades')
+  @ViewChild('paginatorEspecialidades')
   paginatorEspecialidades!: MatPaginator;
 
   @ViewChild('paginatorProfissionais')
@@ -32,94 +26,56 @@ export class Especialidades implements OnInit, AfterViewInit {
 
   nomeProfissional = '';
 
-  dataSource =
-    new MatTableDataSource<any>();
+  dataSource = new MatTableDataSource<any>();
 
-  displayedColumns: string[] = [
-    'id',
-    'nome'
-  ];
+  displayedColumns: string[] = ['id', 'nome'];
 
-  dataSourceProfissionais =
-    new MatTableDataSource<any>();
+  dataSourceProfissionais = new MatTableDataSource<any>();
 
-  displayedColumnsProfissionais = [
-    'id',
-    'nome',
-    'acoes'
-  ];
+  displayedColumnsProfissionais = ['id', 'nome', 'acoes'];
 
   constructor(
-
     private service: EspecialidadeService,
 
-    private profissionalService:
-      ProfissionalService,
+    private profissionalService: ProfissionalService,
 
-    private authService: AuthService
-
+    private authService: AuthService,
   ) {}
 
   ngOnInit(): void {
-
     this.listar();
 
     this.listarProfissionais();
   }
 
   ngAfterViewInit(): void {
+    this.dataSource.paginator = this.paginatorEspecialidades;
 
-    this.dataSource.paginator =
-      this.paginatorEspecialidades;
-
-    this.dataSourceProfissionais.paginator =
-      this.paginatorProfissionais;
+    this.dataSourceProfissionais.paginator = this.paginatorProfissionais;
   }
 
   aplicarFiltroEspecialidades(event: Event): void {
-
-    const valor =
-      (event.target as HTMLInputElement)
-      .value
-      .trim()
-      .toLowerCase();
+    const valor = (event.target as HTMLInputElement).value.trim().toLowerCase();
 
     this.dataSource.filter = valor;
   }
 
   aplicarFiltroProfissionais(event: Event): void {
-
-    const valor =
-      (event.target as HTMLInputElement)
-      .value
-      .trim()
-      .toLowerCase();
+    const valor = (event.target as HTMLInputElement).value.trim().toLowerCase();
 
     this.dataSourceProfissionais.filter = valor;
   }
 
   listar(): void {
-
-    this.service.listar()
-      .subscribe({
-
-        next: (res) => {
-
-          this.dataSource.data =
-            res.sort(
-
-              (a: any, b: any) =>
-
-                a.nome.localeCompare(b.nome)
-            );
-        }
-      });
+    this.service.listar().subscribe({
+      next: (res) => {
+        this.dataSource.data = res.sort((a: any, b: any) => a.nome.localeCompare(b.nome));
+      },
+    });
   }
 
   salvar(): void {
-
     if (!this.nome.trim()) {
-
       return;
     }
 
@@ -127,80 +83,57 @@ export class Especialidades implements OnInit, AfterViewInit {
       .salvar(this.nome.toUpperCase())
 
       .subscribe({
-
         next: () => {
+          this.authService.mensagem('Especialidade salva ✅');
+          setTimeout(() => {
+            this.nome = '';
 
-          this.authService.mensagem(
-            'Especialidade salva ✅'
-          );
-setTimeout(() => {
-          this.nome = '';
-
-          this.listar();
-});
-        }
+            this.listar();
+          });
+        },
       });
   }
 
   listarProfissionais(): void {
-
     this.profissionalService
       .listar()
 
       .subscribe({
-
         next: (res) => {
-
-          this.dataSourceProfissionais.data =
-            res.sort(
-
-              (a: any, b: any) =>
-
-                a.nome.localeCompare(b.nome)
-            );
-        }
+          this.dataSourceProfissionais.data = res.sort((a: any, b: any) =>
+            a.nome.localeCompare(b.nome),
+          );
+        },
       });
   }
 
   salvarProfissional(): void {
-
     if (!this.nomeProfissional.trim()) {
-
       return;
     }
 
     const profissional = {
-
-      nome:
-        this.nomeProfissional.toUpperCase()
+      nome: this.nomeProfissional.toUpperCase(),
     };
 
     this.profissionalService
       .salvar(profissional)
 
       .subscribe({
-
         next: () => {
+          this.authService.mensagem('Profissional salvo ✅');
 
-          this.authService.mensagem(
-            'Profissional salvo ✅'
-          );
+          setTimeout(() => {
+            this.nomeProfissional = '';
 
-         setTimeout(() => {
-
-  this.nomeProfissional = '';
-
-  this.listarProfissionais();
-
-});
-        }
+            this.listarProfissionais();
+          });
+        },
       });
   }
 
   removerProfissional(id: number): void {
-
     if (!confirm('Deseja remover o profissional?')) {
-
       return;
     }
 
@@ -208,24 +141,15 @@ setTimeout(() => {
       .remover(id)
 
       .subscribe({
-
         next: () => {
-
-          this.authService.mensagem(
-            'Profissional removido ✅'
-          );
+          this.authService.mensagem('Profissional removido ✅');
 
           this.listarProfissionais();
-        }
+        },
       });
   }
 
-  trackById(
-    index: number,
-    item: any
-
-  ): number {
-
+  trackById(index: number, item: any): number {
     return item.id;
   }
 }

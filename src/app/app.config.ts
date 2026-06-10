@@ -1,9 +1,9 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
-import { provideRouter } from '@angular/router';
 import { provideHttpClient, withFetch } from '@angular/common/http';
-import { routes } from './app.routes';
-import { provideEnvironmentNgxMask } from 'ngx-mask';
+import { ApplicationConfig } from '@angular/core';
 import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideRouter } from '@angular/router';
+import { provideEnvironmentNgxMask } from 'ngx-mask';
+import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -12,6 +12,6 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(),
     provideAnimations(),
-    provideEnvironmentNgxMask()
-  ]
+    provideEnvironmentNgxMask(),
+  ],
 };

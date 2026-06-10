@@ -12,20 +12,13 @@ import { Profissional } from '../../shared/models/profissional';
 
 @Component({
   selector: 'app-diarias',
-  imports: [
-      CommonModule,
-    FormsModule,
-    MatTableModule,
-    MatPaginator,
-    MatPaginatorModule
-  ],
+  imports: [CommonModule, FormsModule, MatTableModule, MatPaginator, MatPaginatorModule],
   templateUrl: './diarias.html',
   styleUrl: './diarias.css',
 })
-export class Diarias implements OnInit{
-
+export class Diarias implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  
+
   filtroData = '';
 
   filtroEspecialidade = '';
@@ -42,7 +35,7 @@ export class Diarias implements OnInit{
 
   observacao = '';
 
-  interno!:number;
+  interno!: number;
 
   externo!: number;
 
@@ -56,279 +49,211 @@ export class Diarias implements OnInit{
 
   nomeProfissional = '';
 
- displayedColumns = [
-  'data',
-  'especialidade',
-  'profissional',
-  'agendados',
-  'compareceram',
-  'faltaram',
-  'interno',
-  'interconsulta',
-  'externo',
-  'acoes'
-];
+  displayedColumns = [
+    'data',
+    'especialidade',
+    'profissional',
+    'agendados',
+    'compareceram',
+    'faltaram',
+    'interno',
+    'interconsulta',
+    'externo',
+    'acoes',
+  ];
 
-  dataSource =
-    new MatTableDataSource<any>();
+  dataSource = new MatTableDataSource<any>();
 
   constructor(
     private service: DiariaService,
     private serviceEspecialidade: EspecialidadeService,
     private authService: AuthService,
     private profissionalService: ProfissionalService,
-  
   ) {}
 
   ngOnInit(): void {
-
     this.listar();
     this.carregarProfissionais();
     this.carregarEspecialidades();
   }
 
-carregarEspecialidades() {
-  this.serviceEspecialidade.listar().subscribe({
-    next: (res) => {
-      this.especialidades = res;
-    }
-  });
-}
+  carregarEspecialidades() {
+    this.serviceEspecialidade.listar().subscribe({
+      next: (res) => {
+        this.especialidades = res;
+      },
+    });
+  }
 
-carregarProfissionais() {
-
-  this.profissionalService
-    .listar()
-    .subscribe(res => {
-
+  carregarProfissionais() {
+    this.profissionalService.listar().subscribe((res) => {
       this.profissionais = res;
     });
-}
+  }
 
- listar() {
+  listar() {
+    this.service.listar().subscribe({
+      next: (res) => {
+        this.dadosOriginais = res.reverse();
 
-  this.service.listar().subscribe({
+        this.dataSource.data = this.dadosOriginais;
 
-    next: (res) => {
-
-      this.dadosOriginais = res.reverse();
-
-      this.dataSource.data = this.dadosOriginais;
-
-      this.dataSource.paginator = this.paginator;
-    }
-  });
-}
+        this.dataSource.paginator = this.paginator;
+      },
+    });
+  }
 
   salvar() {
+    const totalAtendimentos =
+      Number(this.interno || 0) + Number(this.interconsulta || 0) + Number(this.externo || 0);
 
-     const totalAtendimentos =
+    if (totalAtendimentos > this.compareceram) {
+      this.authService.mensagem(
+        'A soma de Interno, Interconsulta e Externo não pode ser maior que Compareceram ⚠️',
+      );
 
-    Number(this.interno || 0) +
+      return;
+    }
 
-    Number(this.interconsulta || 0) +
+    if (this.interconsulta > this.interno) {
+      this.authService.mensagem('Interconsulta não pode ser maior que Interno');
 
-    Number(this.externo || 0);
-
-  if (totalAtendimentos > this.compareceram) {
-
-    this.authService.mensagem(
-
-      'A soma de Interno, Interconsulta e Externo não pode ser maior que Compareceram ⚠️'
-    );
-
-    return;
-  }
-
-     if (this.interconsulta > this.interno) {
-
-    this.authService.mensagem(
-
-      'Interconsulta não pode ser maior que Interno'
-    );
-
-    return;
-  }
+      return;
+    }
 
     if (!this.nomeProfissional) {
+      this.authService.mensagem('Selecione o profissional ⚠️');
 
-  this.authService.mensagem(
+      return;
+    }
 
-    'Selecione o profissional ⚠️'
+    if (this.interno + this.externo !== this.compareceram) {
+      this.authService.mensagem(
+        'A soma de Interno + Externo deve ser igual ao total de Compareceram ⚠️',
+      );
 
-  );
+      return;
+    }
 
-  return;
-}
+    if (this.compareceram < 0) {
+      this.authService.mensagem('O campo Compareceram não pode ser negativo ⚠️');
+    }
 
-  if ( (this.interno + this.externo) !== this.compareceram) {
+    if (this.compareceram > this.totalAgendados) {
+      this.authService.mensagem('O campo Compareceram não pode ser maior que Total Agendados ⚠️');
 
-    this.authService.mensagem(
+      return;
+    }
 
-      'A soma de Interno + Externo deve ser igual ao total de Compareceram ⚠️'
+    const diaria: RegistroDiario = {
+      data: this.data,
 
-    );
+      totalAgendados: this.totalAgendados,
 
-    return;
+      compareceram: this.compareceram,
+
+      observacao: this.observacao,
+
+      interno: this.interno,
+
+      externo: this.externo,
+
+      interconsulta: this.interconsulta,
+
+      especialidadeId: this.especialidadeId,
+
+      nomeProfissional: this.nomeProfissional,
+    };
+
+    if (this.idEdicao) {
+      this.service
+        .atualizar(
+          this.idEdicao,
+
+          diaria,
+        )
+        .subscribe({
+          next: () => {
+            this.authService.mensagem('Atualizado com sucesso ✅');
+
+            this.cancelar();
+
+            this.listar();
+          },
+        });
+
+      return;
+    }
+
+    this.service
+      .salvar(diaria)
+
+      .subscribe({
+        next: () => {
+          this.authService.mensagem('Salvo com sucesso ✅');
+
+          this.cancelar();
+
+          this.listar();
+        },
+      });
   }
 
-  if (this.compareceram < 0){
+  editar(item: any) {
+    this.idEdicao = item.id ?? null;
 
-    this.authService.mensagem(
+    this.data = item.data;
 
-      'O campo Compareceram não pode ser negativo ⚠️'
+    this.totalAgendados = item.totalAgendados;
 
-    );
+    this.compareceram = item.compareceram;
+
+    this.interno = item.interno;
+
+    this.externo = item.externo;
+
+    this.interconsulta = item.interconsulta;
+
+    this.observacao = item.observacao;
+
+    this.especialidadeId = item.especialidadeId;
+
+    this.nomeProfissional = item.nomeProfissional;
   }
-
-  if (this.compareceram > this.totalAgendados) {
-
-    this.authService.mensagem(
-
-      'O campo Compareceram não pode ser maior que Total Agendados ⚠️'
-
-    );
-
-    return;
-  }
-
-  const diaria: RegistroDiario = {
-
-    data: this.data,
-
-    totalAgendados: this.totalAgendados,
-
-    compareceram: this.compareceram,
-
-    observacao: this.observacao,
-
-    interno: this.interno,
-
-    externo:this.externo,
-
-    interconsulta: this.interconsulta,
-
-    especialidadeId:this.especialidadeId,
-
-    nomeProfissional: this.nomeProfissional
-  };
-
-  if (this.idEdicao) {
-
-    this.service.atualizar(
-
-      this.idEdicao,
-
-      diaria
-
-    ).subscribe({
-
-      next: () => {
-
-        this.authService.mensagem(
-
-          'Atualizado com sucesso ✅'
-
-        );
-
-        this.cancelar();
-
-        this.listar();
-      }
-    });
-
-    return;
-  }
-
-  this.service.salvar(diaria)
-
-    .subscribe({
-
-      next: () => {
-
-        this.authService.mensagem(
-
-          'Salvo com sucesso ✅'
-
-        );
-
-        this.cancelar();
-
-        this.listar();
-      }
-    });
-}
-
- editar(item: any) {
-
-  this.idEdicao = item.id ?? null;
-
-  this.data = item.data;
-
-  this.totalAgendados = item.totalAgendados;
-
-  this.compareceram = item.compareceram;
-
-  this.interno = item.interno;
-
-  this.externo = item.externo;
-
-  this.interconsulta = item.interconsulta;
-
-  this.observacao = item.observacao;
-
-  this.especialidadeId = item.especialidadeId;
-
-  this.nomeProfissional = item.nomeProfissional;
-}
 
   cancelar() {
+    this.idEdicao = null;
 
-  this.idEdicao = null;
+    this.data = '';
 
-  this.data = '';
+    this.totalAgendados = null!;
 
-  this.totalAgendados = null!;
+    this.compareceram = null!;
 
-  this.compareceram = null!;
+    this.observacao = '';
 
-  this.observacao = '';
+    this.interno = null!;
 
-  this.interno = null!;
+    this.externo = null!;
 
-  this.externo = null!;
+    this.interconsulta = null!;
 
-  this.interconsulta = null!;
+    this.especialidadeId = null!;
 
-  this.especialidadeId = null!;
-
-  this.nomeProfissional = '';
-}
-
-filtrar() {
-
-  let dados =
-    [...this.dadosOriginais];
-
-  if (this.filtroData) {
-
-    dados = dados.filter(
-
-      (x: any) =>
-        x.data === this.filtroData
-    );
+    this.nomeProfissional = '';
   }
 
-  if (this.filtroEspecialidade) {
+  filtrar() {
+    let dados = [...this.dadosOriginais];
 
-    dados = dados.filter(
+    if (this.filtroData) {
+      dados = dados.filter((x: any) => x.data === this.filtroData);
+    }
 
-      (x: any) =>
-        x.especialidadeNome ===
-        this.filtroEspecialidade
-    );
+    if (this.filtroEspecialidade) {
+      dados = dados.filter((x: any) => x.especialidadeNome === this.filtroEspecialidade);
+    }
+
+    this.dataSource.data = dados;
   }
-
-  this.dataSource.data = dados;
-}
 }

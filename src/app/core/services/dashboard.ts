@@ -6,15 +6,11 @@ import { API_CONFIG } from '../config/api.config';
   providedIn: 'root',
 })
 export class DashboardService {
+  private api = `${API_CONFIG.baseUrl}/dashboard`;
 
-   private api = `${API_CONFIG.baseUrl}/dashboard`;
-
-  constructor(
-    private http: HttpClient
-  ) {}
+  constructor(private http: HttpClient) {}
 
   buscarTotais() {
-
     return this.http.get<any>(this.api);
   }
 }

@@ -10,52 +10,50 @@ import { AgendaComponent } from './pages/agenda/agenda';
 import { ListaEsperaComponent } from './pages/lista-espera-component/lista-espera-component';
 
 export const routes: Routes = [
-
   {
     path: '',
-    component: Login
+    component: Login,
   },
 
   {
     path: 'dashboard',
     component: Dashboard,
-    canActivate: [authGuard]
+    canActivate: [authGuard],
   },
 
   {
     path: 'especialidades',
     component: Especialidades,
-    canActivate: [authGuard]
+    canActivate: [authGuard],
   },
 
   {
     path: 'usuarios',
     component: Usuarios,
-    canActivate: [authGuard]
+    canActivate: [authGuard],
   },
 
   {
     path: 'diarias',
     component: Diarias,
-    canActivate: [authGuard]
+    canActivate: [authGuard],
   },
   {
-  path: 'lista-espera',
+    path: 'lista-espera',
     component: ListaEsperaComponent,
-    canActivate: [authGuard]
+    canActivate: [authGuard],
   },
   {
     path: 'relatorios',
     component: Relatorio,
-    canActivate: [authGuard]
+    canActivate: [authGuard],
   },
   {
     path: 'agenda',
-    component: AgendaComponent
+    component: AgendaComponent,
   },
-  { 
+  {
     path: '**',
-    redirectTo: ''
-  }
-
+    redirectTo: '',
+  },
 ];

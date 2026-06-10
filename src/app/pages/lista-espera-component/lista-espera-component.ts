@@ -11,19 +11,12 @@ import { NgxMaskDirective } from 'ngx-mask';
 @Component({
   selector: 'app-lista-espera-component',
   standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    MatTableModule,
-    MatPaginatorModule,
-    NgxMaskDirective
-  ],
+  imports: [CommonModule, FormsModule, MatTableModule, MatPaginatorModule, NgxMaskDirective],
   templateUrl: './lista-espera-component.html',
   styleUrl: './lista-espera-component.css',
 })
 export class ListaEsperaComponent {
-  
-   @ViewChild(MatPaginator)
+  @ViewChild(MatPaginator)
   paginator!: MatPaginator;
 
   idEdicao: number | null = null;
@@ -49,7 +42,6 @@ export class ListaEsperaComponent {
   dadosOriginais: any[] = [];
 
   displayedColumns = [
-
     'prontuario',
 
     'nome',
@@ -62,188 +54,128 @@ export class ListaEsperaComponent {
 
     'confirmado',
 
-    'acoes'
+    'acoes',
   ];
 
-  dataSource =
-    new MatTableDataSource<any>();
+  dataSource = new MatTableDataSource<any>();
 
   constructor(
+    private service: ListaEsperaService,
 
-    private service:
-      ListaEsperaService,
+    private authService: AuthService,
 
-    private authService:
-      AuthService,
-
-    private especialidadeService:
-      EspecialidadeService
+    private especialidadeService: EspecialidadeService,
   ) {}
 
   ngOnInit(): void {
-
     this.listar();
 
     this.carregarEspecialidades();
   }
 
   carregarEspecialidades() {
-
-    this.especialidadeService
-      .listar()
-      .subscribe(res => {
-
-        this.especialidades = res;
-      });
+    this.especialidadeService.listar().subscribe((res) => {
+      this.especialidades = res;
+    });
   }
 
   listar() {
+    this.service.listar().subscribe({
+      next: (res) => {
+        this.dadosOriginais = res;
 
-    this.service.listar()
-      .subscribe({
+        this.dataSource.data = this.ordenarLista(res);
 
-        next: (res) => {
-
-          this.dadosOriginais = res;
-
-          this.dataSource.data =
-            this.ordenarLista(res);
-
-          this.dataSource.paginator =
-            this.paginator;
-        }
-      });
+        this.dataSource.paginator = this.paginator;
+      },
+    });
   }
 
   ordenarLista(lista: any[]) {
-
     return lista.sort((a, b) => {
-
-      if (
-        a.confirmado !== b.confirmado
-      ) {
-
+      if (a.confirmado !== b.confirmado) {
         return a.confirmado ? 1 : -1;
       }
 
-      return new Date(a.createdAt)
-        .getTime()
-
-        -
-
-      new Date(b.createdAt)
-        .getTime();
+      return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
     });
   }
 
   salvar() {
-
     const item = {
-
       nome: this.nome,
 
       prontuario: this.prontuario,
 
       telefone: this.telefone,
 
-      dataNascimento:
-        this.dataNascimento,
+      dataNascimento: this.dataNascimento,
 
-      especialidade:
-        this.especialidade,
+      especialidade: this.especialidade,
 
-      confirmado:
-        this.confirmado
+      confirmado: this.confirmado,
     };
 
     if (this.idEdicao) {
+      this.service
+        .atualizar(
+          this.idEdicao,
 
-      this.service.atualizar(
+          item,
+        )
+        .subscribe({
+          next: () => {
+            this.authService.mensagem('Atualizado com sucesso ✅');
 
-        this.idEdicao,
+            this.cancelar();
 
-        item
-
-      ).subscribe({
-
-        next: () => {
-
-          this.authService
-            .mensagem(
-
-              'Atualizado com sucesso ✅'
-            );
-
-          this.cancelar();
-
-          this.listar();
-        }
-      });
+            this.listar();
+          },
+        });
 
       return;
     }
 
-    this.service.salvar(item)
-      .subscribe({
+    this.service.salvar(item).subscribe({
+      next: () => {
+        this.authService.mensagem('Salvo com sucesso ✅');
 
-        next: () => {
+        this.cancelar();
 
-          this.authService
-            .mensagem(
-
-              'Salvo com sucesso ✅'
-            );
-
-          this.cancelar();
-
-          this.listar();
-        }
-      });
+        this.listar();
+      },
+    });
   }
 
   editar(item: any) {
-
     this.idEdicao = item.id;
 
     this.nome = item.nome;
 
-    this.prontuario =
-      item.prontuario;
+    this.prontuario = item.prontuario;
 
-    this.telefone =
-      item.telefone;
+    this.telefone = item.telefone;
 
-    this.dataNascimento =
-      item.dataNascimento;
+    this.dataNascimento = item.dataNascimento;
 
-    this.especialidade =
-      item.especialidade;
+    this.especialidade = item.especialidade;
 
-    this.confirmado =
-      item.confirmado;
+    this.confirmado = item.confirmado;
   }
 
   remover(id: number) {
-
-    if (!confirm(
-      'Deseja remover?'
-    )) {
-
+    if (!confirm('Deseja remover?')) {
       return;
     }
 
-    this.service.remover(id)
-      .subscribe({
-
-        next: () => {
-
-          this.listar();
-        }
-      });
+    this.service.remover(id).subscribe({
+      next: () => {
+        this.listar();
+      },
+    });
   }
 
   cancelar() {
-
     this.idEdicao = null;
 
     this.nome = '';
@@ -260,51 +192,20 @@ export class ListaEsperaComponent {
   }
 
   filtrar() {
-
-    let dados = [
-
-      ...this.dadosOriginais
-    ];
+    let dados = [...this.dadosOriginais];
 
     if (this.filtroNome) {
-
       dados = dados.filter(
-
-        x =>
-
-          x.nome
-            .toLowerCase()
-            .includes(
-
-              this.filtroNome
-                .toLowerCase()
-
-            )
-
-          ||
-
-          x.prontuario
-            .includes(
-
-              this.filtroNome
-            )
+        (x) =>
+          x.nome.toLowerCase().includes(this.filtroNome.toLowerCase()) ||
+          x.prontuario.includes(this.filtroNome),
       );
     }
 
-    if (
-      this.filtroEspecialidade
-    ) {
-
-      dados = dados.filter(
-
-        x =>
-
-          x.especialidade ===
-          this.filtroEspecialidade
-      );
+    if (this.filtroEspecialidade) {
+      dados = dados.filter((x) => x.especialidade === this.filtroEspecialidade);
     }
 
-    this.dataSource.data =
-      this.ordenarLista(dados);
+    this.dataSource.data = this.ordenarLista(dados);
   }
 }

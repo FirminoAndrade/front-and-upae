@@ -1,392 +1,166 @@
 <div class="container mt-4">
-
-  <!-- FORMULÁRIO -->
-
   <div class="card shadow p-4">
-
-    <h3 class="mb-4">
-
-      Lista de Espera
-
-    </h3>
+    <h3 class="mb-4">Lista de Espera</h3>
 
     <div class="row g-3">
-
       <div class="col-md-4">
+        <label class="form-label"> Nome </label>
 
-        <label class="form-label">
-
-          Nome
-
-        </label>
-
-        <input
-          type="text"
-          class="form-control"
-          [(ngModel)]="nome">
-
+        <input type="text" class="form-control" [(ngModel)]="nome" />
       </div>
 
       <div class="col-md-2">
+        <label class="form-label"> Prontuário </label>
 
-        <label class="form-label">
-
-          Prontuário
-
-        </label>
-
-        <input
-          type="text"
-          class="form-control"
-          [(ngModel)]="prontuario">
-
+        <input type="text" class="form-control" [(ngModel)]="prontuario" />
       </div>
 
       <div class="col-md-3">
+        <label class="form-label"> Telefone </label>
 
-        <label class="form-label">
-
-          Telefone
-
-        </label>
-
-        <input
-         type="text"
-         class="form-control"
-         [(ngModel)]="telefone"
-         mask="(00) 00000-0000">
-
+        <input type="text" class="form-control" [(ngModel)]="telefone" mask="(00) 00000-0000" />
       </div>
 
       <div class="col-md-3">
+        <label class="form-label"> Data Nascimento </label>
 
-        <label class="form-label">
-
-          Data Nascimento
-
-        </label>
-
-        <input
-          type="date"
-          class="form-control"
-          [(ngModel)]="dataNascimento">
-
+        <input type="date" class="form-control" [(ngModel)]="dataNascimento" />
       </div>
 
       <div class="col-md-6">
+        <label class="form-label"> Especialidade </label>
 
-        <label class="form-label">
+        <select class="form-select" [(ngModel)]="especialidade">
+          <option value="">Selecione</option>
 
-          Especialidade
-
-        </label>
-
-        <select
-          class="form-select"
-          [(ngModel)]="especialidade">
-
-          <option value="">
-
-            Selecione
-
-          </option>
-
-          <option
-            *ngFor="let item of especialidades"
-            [value]="item.nome">
-
+          <option *ngFor="let item of especialidades" [value]="item.nome">
             {{ item.nome }}
-
           </option>
-
         </select>
-
       </div>
 
       <div class="col-md-3 d-flex align-items-end">
-
         <div class="form-check">
-
           <input
             class="form-check-input"
             type="checkbox"
             [(ngModel)]="confirmado"
-            id="confirmado">
+            id="confirmado"
+          />
 
-          <label
-            class="form-check-label"
-            for="confirmado">
-
-            Confirmado
-
-          </label>
-
+          <label class="form-check-label" for="confirmado"> Confirmado </label>
         </div>
-
       </div>
 
       <div class="col-md-12 d-flex gap-2">
-
-        <button
-          class="btn btn-primary"
-          (click)="salvar()">
-
+        <button class="btn btn-primary" (click)="salvar()">
           {{ idEdicao ? 'Atualizar' : 'Salvar' }}
-
         </button>
 
-        <button
-          class="btn btn-secondary"
-          (click)="cancelar()">
-
-          Cancelar
-
-        </button>
-
+        <button class="btn btn-secondary" (click)="cancelar()">Cancelar</button>
       </div>
-
     </div>
-
   </div>
-
-  <!-- LISTAGEM -->
 
   <div class="card shadow p-4 mt-4">
-
-    <h4 class="mb-3">
-
-      Pacientes em Espera
-
-    </h4>
-
-    <!-- FILTROS -->
+    <h4 class="mb-3">Pacientes em Espera</h4>
 
     <div class="row mb-3">
-
       <div class="col-md-4">
+        <label class="form-label"> Nome ou Prontuário </label>
 
-        <label class="form-label">
-
-          Nome ou Prontuário
-
-        </label>
-
-        <input
-          type="text"
-          class="form-control"
-          [(ngModel)]="filtroNome"
-          (keyup)="filtrar()">
-
+        <input type="text" class="form-control" [(ngModel)]="filtroNome" (keyup)="filtrar()" />
       </div>
 
       <div class="col-md-4">
+        <label class="form-label"> Especialidade </label>
 
-        <label class="form-label">
+        <select class="form-select" [(ngModel)]="filtroEspecialidade" (change)="filtrar()">
+          <option value="">Todas</option>
 
-          Especialidade
-
-        </label>
-
-        <select
-          class="form-select"
-          [(ngModel)]="filtroEspecialidade"
-          (change)="filtrar()">
-
-          <option value="">
-
-            Todas
-
-          </option>
-
-          <option
-            *ngFor="let item of especialidades"
-            [value]="item.nome">
-
+          <option *ngFor="let item of especialidades" [value]="item.nome">
             {{ item.nome }}
-
           </option>
-
         </select>
-
       </div>
-
     </div>
 
-    <!-- TABELA -->
-   <div class="tabela-scroll">
+    <div class="tabela-scroll">
+      <table mat-table [dataSource]="dataSource" class="table table-striped">
 
-    <table
-      mat-table
-      [dataSource]="dataSource"
-      class="table table-striped">
+        <ng-container matColumnDef="prontuario">
+          <th mat-header-cell *matHeaderCellDef>Prontuário</th>
 
-      <!-- PRONTUARIO -->
+          <td mat-cell *matCellDef="let item">
+            {{ item.prontuario }}
+          </td>
+        </ng-container>
 
-      <ng-container matColumnDef="prontuario">
+        <ng-container matColumnDef="nome">
+          <th mat-header-cell *matHeaderCellDef>Nome</th>
 
-        <th mat-header-cell *matHeaderCellDef>
+          <td mat-cell *matCellDef="let item">
+            {{ item.nome }}
+          </td>
+        </ng-container>
 
-          Prontuário
+        <ng-container matColumnDef="telefone">
+          <th mat-header-cell *matHeaderCellDef>Telefone</th>
 
-        </th>
-
-        <td mat-cell *matCellDef="let item">
-
-          {{ item.prontuario }}
-
-        </td>
-
-      </ng-container>
-
-      <!-- NOME -->
-
-      <ng-container matColumnDef="nome">
-
-        <th mat-header-cell *matHeaderCellDef>
-
-          Nome
-
-        </th>
-
-        <td mat-cell *matCellDef="let item">
-
-          {{ item.nome }}
-
-        </td>
-
-      </ng-container>
-
-      <!-- TELEFONE -->
-
-      <ng-container matColumnDef="telefone">
-
-        <th mat-header-cell *matHeaderCellDef>
-
-          Telefone
-
-        </th>
-
-        <td mat-cell *matCellDef="let item">
-
+          <td mat-cell *matCellDef="let item">
             {{ item.telefone }}
+          </td>
+        </ng-container>
 
-        </td>
+        <ng-container matColumnDef="dataNascimento">
+          <th mat-header-cell *matHeaderCellDef>Nascimento</th>
 
-      </ng-container>
+          <td mat-cell *matCellDef="let item">
+            {{ item.dataNascimento | date: 'dd/MM/yyyy' }}
+          </td>
+        </ng-container>
 
-      <!-- DATA NASCIMENTO -->
+        <ng-container matColumnDef="especialidade">
+          <th mat-header-cell *matHeaderCellDef>Especialidade</th>
 
-      <ng-container matColumnDef="dataNascimento">
+          <td mat-cell *matCellDef="let item">
+            {{ item.especialidade }}
+          </td>
+        </ng-container>
 
-        <th mat-header-cell *matHeaderCellDef>
+        <ng-container matColumnDef="confirmado">
+          <th mat-header-cell *matHeaderCellDef>Confirmado</th>
 
-          Nascimento
+          <td mat-cell *matCellDef="let item">
+            <span
+              class="badge"
+              [class.bg-success]="item.confirmado"
+              [class.bg-warning]="!item.confirmado"
+            >
+              {{ item.confirmado ? 'SIM' : 'NÃO' }}
+            </span>
+          </td>
+        </ng-container>
 
-        </th>
+        <ng-container matColumnDef="acoes">
+          <th mat-header-cell *matHeaderCellDef>Ações</th>
 
-        <td mat-cell *matCellDef="let item">
+          <td mat-cell *matCellDef="let item">
+            <button class="btn btn-warning btn-sm me-2" (click)="editar(item)">
+              <i class="bi bi-pencil"></i>
+            </button>
 
-          {{ item.dataNascimento | date:'dd/MM/yyyy' }}
+            <button class="btn btn-danger btn-sm" (click)="remover(item.id)">
+              <i class="bi bi-trash"></i>
+            </button>
+          </td>
+        </ng-container>
 
-        </td>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
 
-      </ng-container>
-
-      <!-- ESPECIALIDADE -->
-
-      <ng-container matColumnDef="especialidade">
-
-        <th mat-header-cell *matHeaderCellDef>
-
-          Especialidade
-
-        </th>
-
-        <td mat-cell *matCellDef="let item">
-
-          {{ item.especialidade }}
-
-        </td>
-
-      </ng-container>
-
-      <!-- CONFIRMADO -->
-
-      <ng-container matColumnDef="confirmado">
-
-        <th mat-header-cell *matHeaderCellDef>
-
-          Confirmado
-
-        </th>
-
-        <td mat-cell *matCellDef="let item">
-
-          <span
-            class="badge"
-            [class.bg-success]="item.confirmado"
-            [class.bg-warning]="!item.confirmado">
-
-            {{ item.confirmado ? 'SIM' : 'NÃO' }}
-
-          </span>
-
-        </td>
-
-      </ng-container>
-
-      <!-- AÇÕES -->
-
-      <ng-container matColumnDef="acoes">
-
-        <th mat-header-cell *matHeaderCellDef>
-
-          Ações
-
-        </th>
-
-        <td mat-cell *matCellDef="let item">
-
-          <button
-            class="btn btn-warning btn-sm me-2"
-            (click)="editar(item)">
-
-            <i class="bi bi-pencil"></i>
-
-          </button>
-
-          <button
-            class="btn btn-danger btn-sm"
-            (click)="remover(item.id)">
-
-            <i class="bi bi-trash"></i>
-
-          </button>
-
-        </td>
-
-      </ng-container>
-
-      <tr
-        mat-header-row
-        *matHeaderRowDef="displayedColumns">
-
-      </tr>
-
-      <tr
-        mat-row
-        *matRowDef="let row; columns: displayedColumns">
-
-      </tr>
-
-    </table>
-   </div>
-    <mat-paginator
-      [pageSize]="10"
-      [pageSizeOptions]="[10,20,50]">
-
-    </mat-paginator>
-
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+    <mat-paginator [pageSize]="10" [pageSizeOptions]="[10, 20, 50]"> </mat-paginator>
   </div>
-
 </div>

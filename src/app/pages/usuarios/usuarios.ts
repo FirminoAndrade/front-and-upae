@@ -7,21 +7,14 @@ import { UsuarioService } from '../../core/services/usuario';
 import { UsuarioDTO } from '../../shared/models/usuariodto.model';
 import { AuthService } from '../../core/services/auth';
 
-
-
 @Component({
   selector: 'app-usuarios',
-  imports: [
-    CommonModule,
-    FormsModule,
-    MatTableModule
-  ],
+  imports: [CommonModule, FormsModule, MatTableModule],
   templateUrl: './usuarios.html',
   styleUrls: ['./usuarios.css'],
 })
-export class Usuarios implements OnInit{
-
- idEdicao: number | null = null;
+export class Usuarios implements OnInit {
+  idEdicao: number | null = null;
 
   nome = '';
 
@@ -35,142 +28,98 @@ export class Usuarios implements OnInit{
 
   dataSource = new MatTableDataSource<UsuarioDTO>();
 
-  displayedColumns: string[] = [
-    'id',
-    'nome',
-    'login',
-    'perfil',
-    'ativo',
-    'acoes'
-  ];
+  displayedColumns: string[] = ['id', 'nome', 'login', 'perfil', 'ativo', 'acoes'];
 
   constructor(
     private service: UsuarioService,
-    private authService: AuthService
+    private authService: AuthService,
   ) {}
 
   ngOnInit(): void {
-
     this.listar();
   }
 
   listar() {
-
     this.service.listar().subscribe({
-
       next: (res) => {
-
-        this.dataSource.data = res.sort(
-        (a: any, b: any) =>
-          a.nome.localeCompare(b.nome)
-      );
-      }
+        this.dataSource.data = res.sort((a: any, b: any) => a.nome.localeCompare(b.nome));
+      },
     });
   }
 
   salvar() {
+    const usuario: Usuario = {
+      nome: this.nome,
 
-  const usuario: Usuario = {
+      login: this.login,
 
-    nome: this.nome,
+      perfil: this.perfil,
 
-    login: this.login,
+      ativo: this.ativo,
+    };
 
-    perfil: this.perfil,
-
-    ativo: this.ativo
-  };
-
-  if (this.senha.trim() !== '') {
-
-    usuario.senha = this.senha;
-  }
-
-  if (this.idEdicao) {
-
-    this.service.atualizar(
-      this.idEdicao,
-      usuario
-    ).subscribe({
-
-      next: () => {
-
-        this.authService.mensagem(
-
-      'Usuário atualizado'
-    );
-
-        setTimeout(() => {
-
-          this.cancelar();
-
-          this.listar();
-
-        });
-      }
-    });
-
-    return;
-  }
-
-  this.service.salvar(usuario).subscribe({
-
-    next: () => {
-
-      this.authService.mensagem(
-
-        'Usuário cadastrado'
-      );
-
-      setTimeout(() => {
-
-        this.cancelar();
-
-        this.listar();
-
-      });
+    if (this.senha.trim() !== '') {
+      usuario.senha = this.senha;
     }
-  });
-}
 
- editar(usuario: UsuarioDTO) {
+    if (this.idEdicao) {
+      this.service.atualizar(this.idEdicao, usuario).subscribe({
+        next: () => {
+          this.authService.mensagem('Usuário atualizado');
 
-  this.idEdicao = usuario.id ?? null;
+          setTimeout(() => {
+            this.cancelar();
 
-  this.nome = usuario.nome;
-
-  this.login = usuario.login;
-
-  this.perfil = usuario.perfil;
-
-  this.ativo = usuario.ativo;
-
-  this.senha = '';
-}
-
-  remover(id: number) {
-
-    if (!confirm('Deseja remover?')) {
+            this.listar();
+          });
+        },
+      });
 
       return;
     }
 
-    this.service.remover(id).subscribe({
-
+    this.service.salvar(usuario).subscribe({
       next: () => {
+        this.authService.mensagem('Usuário cadastrado');
 
-        this.authService.mensagem(
+        setTimeout(() => {
+          this.cancelar();
 
-          'Usuário removido'
-        );
+          this.listar();
+        });
+      },
+    });
+  }
+
+  editar(usuario: UsuarioDTO) {
+    this.idEdicao = usuario.id ?? null;
+
+    this.nome = usuario.nome;
+
+    this.login = usuario.login;
+
+    this.perfil = usuario.perfil;
+
+    this.ativo = usuario.ativo;
+
+    this.senha = '';
+  }
+
+  remover(id: number) {
+    if (!confirm('Deseja remover?')) {
+      return;
+    }
+
+    this.service.remover(id).subscribe({
+      next: () => {
+        this.authService.mensagem('Usuário removido');
 
         this.listar();
-      }
+      },
     });
   }
 
   cancelar() {
-
     this.idEdicao = null;
 
     this.nome = '';
@@ -184,4 +133,3 @@ export class Usuarios implements OnInit{
     this.ativo = true;
   }
 }
-

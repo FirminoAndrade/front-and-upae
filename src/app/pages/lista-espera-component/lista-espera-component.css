@@ -1,11 +1,7 @@
-/* CONTAINER */
-
 .container {
   max-width: 98%;
   padding: 10px;
 }
-
-/* CARDS */
 
 .card {
   margin-bottom: 10px !important;
@@ -17,8 +13,6 @@
   padding: 10px !important;
 }
 
-/* TÍTULOS */
-
 h3 {
   font-size: 1.2rem;
   margin-bottom: 10px !important;
@@ -28,8 +22,6 @@ h4 {
   font-size: 1rem;
   margin-bottom: 10px !important;
 }
-
-/* INPUTS */
 
 .form-control,
 .form-select {
@@ -43,21 +35,15 @@ h4 {
   margin-bottom: 2px;
 }
 
-/* CHECKBOX */
-
 .form-check-label {
   font-size: 13px;
 }
-
-/* BOTÕES */
 
 .btn {
   height: 34px;
   font-size: 13px;
   padding: 4px 10px;
 }
-
-/* TABELA */
 
 table {
   font-size: 12px;
@@ -72,21 +58,15 @@ tr.mat-mdc-row {
   height: 36px !important;
 }
 
-/* PAGINADOR */
-
 .mat-mdc-paginator {
   min-height: 40px !important;
 }
-
-/* REMOVE SCROLL DA PÁGINA */
 
 html,
 body {
   overflow: hidden;
   height: 100%;
 }
-
-/* SCROLL APENAS NA TABELA */
 
 .tabela-scroll {
   max-height: 55vh;

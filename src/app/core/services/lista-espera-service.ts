@@ -8,52 +8,27 @@ import { API_CONFIG } from '../config/api.config';
   providedIn: 'root',
 })
 export class ListaEsperaService {
+  private api = `${API_CONFIG.baseUrl}/lista-espera`;
 
-    private api = `${API_CONFIG.baseUrl}/lista-espera`;
-
-  constructor(
-    private http: HttpClient
-  ) {}
+  constructor(private http: HttpClient) {}
 
   listar(): Observable<ListaEspera[]> {
-
-    return this.http.get<ListaEspera[]>(
-      this.api
-    );
+    return this.http.get<ListaEspera[]>(this.api);
   }
 
   buscarPorId(id: number) {
-
-    return this.http.get<ListaEspera>(
-      `${this.api}/${id}`
-    );
+    return this.http.get<ListaEspera>(`${this.api}/${id}`);
   }
 
-  salvar(
-    item: ListaEspera
-  ): Observable<ListaEspera> {
-
-    return this.http.post<ListaEspera>(
-      this.api,
-      item
-    );
+  salvar(item: ListaEspera): Observable<ListaEspera> {
+    return this.http.post<ListaEspera>(this.api, item);
   }
 
-  atualizar(
-    id: number,
-    item: ListaEspera
-  ): Observable<ListaEspera> {
-
-    return this.http.put<ListaEspera>(
-      `${this.api}/${id}`,
-      item
-    );
+  atualizar(id: number, item: ListaEspera): Observable<ListaEspera> {
+    return this.http.put<ListaEspera>(`${this.api}/${id}`, item);
   }
 
   remover(id: number) {
-
-    return this.http.delete(
-      `${this.api}/${id}`
-    );
+    return this.http.delete(`${this.api}/${id}`);
   }
 }

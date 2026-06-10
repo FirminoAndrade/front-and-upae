@@ -1,5 +1,4 @@
 export interface Agenda {
-
   id?: number;
 
   data: string;

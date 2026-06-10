@@ -5,15 +5,11 @@ import { RelatorioService } from '../../core/services/relatorio';
 
 @Component({
   selector: 'app-relatorio',
-  imports: [
-     CommonModule,
-    FormsModule
-  ],
+  imports: [CommonModule, FormsModule],
   templateUrl: './relatorio.html',
   styleUrl: './relatorio.css',
 })
 export class Relatorio {
-
   dataInicio = '';
 
   dataFim = '';
@@ -22,127 +18,95 @@ export class Relatorio {
 
   filtroEspecialidade = '';
 
-filtroProfissional = '';
+  filtroProfissional = '';
 
-relatoriosOriginais: any[] = [];
+  relatoriosOriginais: any[] = [];
 
-  constructor(
-    private service: RelatorioService
-  ) {}
+  constructor(private service: RelatorioService) {}
 
- buscarRelatorio() {
+  buscarRelatorio() {
+    this.service
+      .buscarPorPeriodo(
+        this.dataInicio,
 
-  this.service.buscarPorPeriodo(
+        this.dataFim,
+      )
+      .subscribe({
+        next: (res) => {
+          this.relatoriosOriginais = res;
 
-    this.dataInicio,
-
-    this.dataFim
-
-  ).subscribe({
-
-    next: (res) => {
-
-      this.relatoriosOriginais = res;
-
-      this.relatorios = res;
-    }
-  });
-}
+          this.relatorios = res;
+        },
+      });
+  }
 
   getTotalAgendados(): number {
+    return this.relatorios.reduce(
+      (total, item) => total + item.totalAgendados,
 
-  return this.relatorios.reduce(
+      0,
+    );
+  }
 
-    (total, item) => total + item.totalAgendados,
+  getTotalCompareceram(): number {
+    return this.relatorios.reduce(
+      (total, item) => total + item.compareceram,
 
-    0
-  );
-}
+      0,
+    );
+  }
 
-getTotalCompareceram(): number {
+  getTotalFaltaram(): number {
+    return this.relatorios.reduce(
+      (total, item) => total + item.faltaram,
 
-  return this.relatorios.reduce(
+      0,
+    );
+  }
 
-    (total, item) => total + item.compareceram,
+  getTotalInterno(): number {
+    return this.relatorios.reduce(
+      (total, item) => total + item.interno,
 
-    0
-  );
-}
+      0,
+    );
+  }
 
-getTotalFaltaram(): number {
+  getTotalInterconsulta(): number {
+    return this.relatorios.reduce(
+      (total, item) => total + (item.interconsulta || 0),
 
-  return this.relatorios.reduce(
+      0,
+    );
+  }
 
-    (total, item) => total + item.faltaram,
+  getTotalExterno(): number {
+    return this.relatorios.reduce(
+      (total, item) => total + item.externo,
 
-    0
-  );
-}
-
-getTotalInterno(): number {
-
-  return this.relatorios.reduce(
-
-    (total, item) => total + item.interno,
-
-    0
-  );
-}
-
-getTotalInterconsulta(): number {
-
-  return this.relatorios.reduce(
-
-    (total, item) =>
-      total + (item.interconsulta || 0),
-
-    0
-  );
-}
-
-getTotalExterno(): number {
-
-  return this.relatorios.reduce(
-
-    (total, item) => total + item.externo,
-
-    0
-  );
-}
+      0,
+    );
+  }
 
   imprimir() {
-
     window.print();
   }
 
   filtrar(): void {
+    let dados = [...this.relatoriosOriginais];
 
-  let dados = [...this.relatoriosOriginais];
+    if (this.filtroEspecialidade.trim()) {
+      dados = dados.filter((item) =>
+        item.especialidade?.toLowerCase().includes(this.filtroEspecialidade.toLowerCase()),
+      );
+    }
 
-  if (this.filtroEspecialidade.trim()) {
+    if (this.filtroProfissional.trim()) {
+      dados = dados.filter((item) =>
+        item.profissional?.toLowerCase().includes(this.filtroProfissional.toLowerCase()),
+      );
+    }
 
-    dados = dados.filter(item =>
-
-      item.especialidade
-        ?.toLowerCase()
-        .includes(
-          this.filtroEspecialidade.toLowerCase()
-        )
-    );
+    this.relatorios = dados;
   }
-
-  if (this.filtroProfissional.trim()) {
-
-    dados = dados.filter(item =>
-
-      item.profissional
-        ?.toLowerCase()
-        .includes(
-          this.filtroProfissional.toLowerCase()
-        )
-    );
-  }
-
-  this.relatorios = dados;
-}
 }

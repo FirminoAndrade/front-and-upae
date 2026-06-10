@@ -1,510 +1,200 @@
 <div class="container mt-4">
 
-  <!-- FORMULÁRIO -->
-
   <div class="card shadow p-4">
-
-    <h3 class="mb-4">
-
-      Registro de Consultas por Especialidade
-
-    </h3>
+    <h3 class="mb-4">Registro de Consultas por Especialidade</h3>
 
     <div class="row g-3">
 
-      <!-- DATA -->
-
       <div class="col-md-3">
+        <label class="form-label"> Data </label>
 
-        <label class="form-label">
-
-          Data
-
-        </label>
-
-        <input
-          type="date"
-          class="form-control"
-          [(ngModel)]="data">
-
+        <input type="date" class="form-control" [(ngModel)]="data" />
       </div>
 
-      <!-- ESPECIALIDADE -->
-
       <div class="col-md-3">
+        <label class="form-label"> Especialidade </label>
 
-        <label class="form-label">
+        <select class="form-select" [(ngModel)]="especialidadeId">
+          <option [ngValue]="0">Selecione</option>
 
-          Especialidade
-
-        </label>
-
-        <select
-  class="form-select"
-  [(ngModel)]="especialidadeId">
-
-          <option [ngValue]="0">
-
-            Selecione
-
-          </option>
-
-          <option
-            *ngFor="let item of especialidades"
-            [ngValue]="item.id">
-
+          <option *ngFor="let item of especialidades" [ngValue]="item.id">
             {{ item.nome }}
-
           </option>
-
         </select>
-
       </div>
-
-      <!-- PROFISSIONAL -->
 
       <div class="col-md-6">
+        <label class="form-label"> Profissional </label>
 
-        <label class="form-label">
+        <select class="form-select" [(ngModel)]="nomeProfissional">
+          <option value="">Selecione</option>
 
-          Profissional
-
-        </label>
-
-     <select
-  class="form-select"
-  [(ngModel)]="nomeProfissional">
-
-  <option value="">
-    Selecione
-  </option>
-
-  <option
-    *ngFor="let item of profissionais"
-    [value]="item.nome">
-
-    {{ item.nome }}
-
-  </option>
-
-</select>
+          <option *ngFor="let item of profissionais" [value]="item.nome">
+            {{ item.nome }}
+          </option>
+        </select>
       </div>
-
-      <!-- QUEBRA LINHA -->
 
       <div class="w-100"></div>
 
-      <!-- TOTAL AGENDADOS -->
+      <div class="col-md-3">
+        <label class="form-label"> Total Agendados </label>
 
-<div class="col-md-3">
+        <input type="number" class="form-control" [(ngModel)]="totalAgendados" />
+      </div>
 
-  <label class="form-label">
+      <div class="col-md-3">
+        <label class="form-label"> Compareceram </label>
 
-    Total Agendados
+        <input type="number" class="form-control" [(ngModel)]="compareceram" />
+      </div>
 
-  </label>
+      <div class="col-md-2">
+        <label class="form-label"> Interno </label>
 
-  <input
-    type="number"
-    class="form-control"
-    [(ngModel)]="totalAgendados">
+        <input type="number" class="form-control" [(ngModel)]="interno" />
+      </div>
 
-</div>
+      <div class="col-md-2">
+        <label class="form-label"> Interconsulta </label>
 
-<!-- COMPARECERAM -->
+        <input type="number" class="form-control" [(ngModel)]="interconsulta" />
+      </div>
 
-<div class="col-md-3">
+      <div class="col-md-2">
+        <label class="form-label"> Externo </label>
 
-  <label class="form-label">
-
-    Compareceram
-
-  </label>
-
-  <input
-    type="number"
-    class="form-control"
-    [(ngModel)]="compareceram">
-
-</div>
-
-<!-- INTERNO -->
-
-<div class="col-md-2">
-
-  <label class="form-label">
-
-    Interno
-
-  </label>
-
-  <input
-    type="number"
-    class="form-control"
-    [(ngModel)]="interno">
-
-</div>
-
-<!-- INTERCONSULTA -->
-
-<div class="col-md-2">
-
-  <label class="form-label">
-
-    Interconsulta
-
-  </label>
-
-  <input
-    type="number"
-    class="form-control"
-    [(ngModel)]="interconsulta">
-
-</div>
-
-<!-- EXTERNO -->
-
-<div class="col-md-2">
-
-  <label class="form-label">
-
-    Externo
-
-  </label>
-
-  <input
-    type="number"
-    class="form-control"
-    [(ngModel)]="externo">
-
-</div>
-
-      <!-- OBSERVAÇÃO -->
+        <input type="number" class="form-control" [(ngModel)]="externo" />
+      </div>
 
       <div class="col-md-12">
+        <label class="form-label"> Observação </label>
 
-        <label class="form-label">
-
-          Observação
-
-        </label>
-
-        <textarea
-          class="form-control"
-          rows="3"
-          [(ngModel)]="observacao">
-        </textarea>
-
+        <textarea class="form-control" rows="3" [(ngModel)]="observacao"> </textarea>
       </div>
-
-      <!-- BOTÕES -->
 
       <div class="col-md-12 d-flex gap-2">
-
-        <button
-          class="btn btn-primary"
-          (click)="salvar()">
-
-         {{ idEdicao ? 'Atualizar' : 'Salvar' }}
-
+        <button class="btn btn-primary" (click)="salvar()">
+          {{ idEdicao ? 'Atualizar' : 'Salvar' }}
         </button>
 
-        <button
-          class="btn btn-secondary"
-          (click)="cancelar()">
-
-          Cancelar
-
-        </button>
-
+        <button class="btn btn-secondary" (click)="cancelar()">Cancelar</button>
       </div>
-
     </div>
-
   </div>
-
-  <!-- TABELA -->
 
   <div class="card shadow p-4 mt-4">
-
-    <h4 class="mb-3">
-
-      Lista de Consultas por Especialidade
-
-    </h4>
-
-    <!-- FILTROS -->
+    <h4 class="mb-3">Lista de Consultas por Especialidade</h4>
 
     <div class="row mb-3">
-
       <div class="col-md-3">
+        <label class="form-label"> Filtrar por Data </label>
 
-        <label class="form-label">
-
-          Filtrar por Data
-
-        </label>
-
-        <input
-          type="date"
-          class="form-control"
-          [(ngModel)]="filtroData"
-          (change)="filtrar()">
-
+        <input type="date" class="form-control" [(ngModel)]="filtroData" (change)="filtrar()" />
       </div>
 
       <div class="col-md-3">
+        <label class="form-label"> Filtrar Especialidade </label>
 
-        <label class="form-label">
+        <select class="form-select" [(ngModel)]="filtroEspecialidade" (change)="filtrar()">
+          <option value="">Todas</option>
 
-          Filtrar Especialidade
-
-        </label>
-
-        <select
-          class="form-select"
-          [(ngModel)]="filtroEspecialidade"
-          (change)="filtrar()">
-
-          <option value="">
-
-            Todas
-
-          </option>
-
-          <option
-            *ngFor="let item of especialidades"
-            [value]="item.nome">
-
+          <option *ngFor="let item of especialidades" [value]="item.nome">
             {{ item.nome }}
-
           </option>
-
         </select>
-
       </div>
-
     </div>
 
-    <!-- TABELA -->
-
-    <table
-      mat-table
-      [dataSource]="dataSource"
-      class="table table-striped">
-
-      <!-- DATA -->
+    <table mat-table [dataSource]="dataSource" class="table table-striped">
 
       <ng-container matColumnDef="data">
-
-        <th mat-header-cell *matHeaderCellDef>
-
-          Data
-
-        </th>
+        <th mat-header-cell *matHeaderCellDef>Data</th>
 
         <td mat-cell *matCellDef="let item">
-
-          {{ item.data | date:'dd/MM/yyyy' }}
-
+          {{ item.data | date: 'dd/MM/yyyy' }}
         </td>
-
       </ng-container>
-
-      <!-- ESPECIALIDADE -->
 
       <ng-container matColumnDef="especialidade">
-
-        <th mat-header-cell *matHeaderCellDef>
-
-          Especialidade
-
-        </th>
+        <th mat-header-cell *matHeaderCellDef>Especialidade</th>
 
         <td mat-cell *matCellDef="let item">
-
           {{ item.especialidadeNome }}
-
         </td>
-
       </ng-container>
-
-      <!-- PROFISSIONAL -->
 
       <ng-container matColumnDef="profissional">
-
-        <th mat-header-cell *matHeaderCellDef>
-
-          Profissional
-
-        </th>
+        <th mat-header-cell *matHeaderCellDef>Profissional</th>
 
         <td mat-cell *matCellDef="let item">
-
           {{ item.nomeProfissional }}
-
         </td>
-
       </ng-container>
-
-      <!-- AGENDADOS -->
 
       <ng-container matColumnDef="agendados">
-
-        <th mat-header-cell *matHeaderCellDef>
-
-          Agendados
-
-        </th>
+        <th mat-header-cell *matHeaderCellDef>Agendados</th>
 
         <td mat-cell *matCellDef="let item">
-
           {{ item.totalAgendados }}
-
         </td>
-
       </ng-container>
-
-      <!-- COMPARECERAM -->
 
       <ng-container matColumnDef="compareceram">
-
-        <th mat-header-cell *matHeaderCellDef>
-
-          Compareceram
-
-        </th>
+        <th mat-header-cell *matHeaderCellDef>Compareceram</th>
 
         <td mat-cell *matCellDef="let item">
-
           {{ item.compareceram }}
-
         </td>
-
       </ng-container>
-
-      <!-- FALTARAM -->
 
       <ng-container matColumnDef="faltaram">
-
-        <th mat-header-cell *matHeaderCellDef>
-
-          Faltaram
-
-        </th>
+        <th mat-header-cell *matHeaderCellDef>Faltaram</th>
 
         <td mat-cell *matCellDef="let item">
-
           {{ item.faltaram }}
-
         </td>
-
       </ng-container>
-
-      <!-- INTERNO -->
 
       <ng-container matColumnDef="interno">
-
-        <th mat-header-cell *matHeaderCellDef>
-
-          Interno
-
-        </th>
+        <th mat-header-cell *matHeaderCellDef>Interno</th>
 
         <td mat-cell *matCellDef="let item">
-
           {{ item.interno }}
-
         </td>
-
       </ng-container>
 
-<!-- INTERCONSULTA -->
+      <ng-container matColumnDef="interconsulta">
+        <th mat-header-cell *matHeaderCellDef>Interconsulta</th>
 
-<ng-container matColumnDef="interconsulta">
-
-  <th mat-header-cell *matHeaderCellDef>
-
-    Interconsulta
-
-  </th>
-
-  <td mat-cell *matCellDef="let item">
-
-    {{ item.interconsulta }}
-
-  </td>
-
-</ng-container>
-
-      <!-- EXTERNO -->
+        <td mat-cell *matCellDef="let item">
+          {{ item.interconsulta }}
+        </td>
+      </ng-container>
 
       <ng-container matColumnDef="externo">
-
-        <th mat-header-cell *matHeaderCellDef>
-
-          Externo
-
-        </th>
+        <th mat-header-cell *matHeaderCellDef>Externo</th>
 
         <td mat-cell *matCellDef="let item">
-
           {{ item.externo }}
-
         </td>
-
       </ng-container>
-
-      <!-- AÇÕES -->
 
       <ng-container matColumnDef="acoes">
-
-        <th mat-header-cell *matHeaderCellDef>
-
-          Ações
-
-        </th>
+        <th mat-header-cell *matHeaderCellDef>Ações</th>
 
         <td mat-cell *matCellDef="let item">
-
-          <button
-            class="btn btn-warning btn-sm me-2"
-            (click)="editar(item)">
-
+          <button class="btn btn-warning btn-sm me-2" (click)="editar(item)">
             <i class="bi bi-pencil"></i>
-
           </button>
-
         </td>
-
       </ng-container>
 
-      <!-- HEADER -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
 
-      <tr
-        mat-header-row
-        *matHeaderRowDef="displayedColumns">
-
-      </tr>
-
-      <!-- LINHAS -->
-
-      <tr
-        mat-row
-        *matRowDef="let row; columns: displayedColumns">
-
-      </tr>
-
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
 
-    <!-- PAGINADOR -->
-
-    <mat-paginator
-      [pageSize]="10"
-      [pageSizeOptions]="[10,20,50]">
-
-    </mat-paginator>
-
+    <mat-paginator [pageSize]="10" [pageSizeOptions]="[10, 20, 50]"> </mat-paginator>
   </div>
-
 </div>

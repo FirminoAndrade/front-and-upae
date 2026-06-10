@@ -1,66 +1,40 @@
 <div class="container vh-100 d-flex justify-content-center align-items-center">
-
-  <div class="card p-4 shadow" style="width: 400px;">
-
-    <h3 class="text-center mb-4">
-      Central de Dados
-    </h3>
+  <div class="card p-4 shadow" style="width: 400px">
+    <h3 class="text-center mb-4">Central de Dados</h3>
 
     <form (ngSubmit)="entrar()">
-
       <div class="mb-3">
-
-        <label class="form-label">
-          Login
-        </label>
+        <label class="form-label"> Login </label>
 
         <input
           type="text"
           class="form-control"
           placeholder="Digite seu login"
           [(ngModel)]="login"
-          name="login">
-
+          name="login"
+        />
       </div>
 
       <div class="mb-3">
-
-        <label class="form-label">
-          Senha
-        </label>
+        <label class="form-label"> Senha </label>
 
         <input
           type="password"
           class="form-control"
           placeholder="Digite sua senha"
           [(ngModel)]="senha"
-          name="senha">
-
+          name="senha"
+        />
       </div>
 
-     <button
-     class="btn btn-primary w-100"
-     type="submit">
-
-     Entrar
-
-     </button>
-
+      <button class="btn btn-primary w-100" type="submit">Entrar</button>
     </form>
 
     <div class="mt-2">
-
-  <button
-    class="btn btn-outline-success w-100"
-    type="button"
-    (click)="buttonAgedar()">
-    <i class="bi bi-calendar3 me-2"></i>
-    Visualizar Agenda
-
-  </button>
-
-</div>
-
+      <button class="btn btn-outline-success w-100" type="button" (click)="buttonAgedar()">
+        <i class="bi bi-calendar3 me-2"></i>
+        Visualizar Agenda
+      </button>
+    </div>
   </div>
-
 </div>

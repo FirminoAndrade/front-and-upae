@@ -1,5 +1,4 @@
 export interface RegistroDiario {
-
   id?: number;
 
   data: string;

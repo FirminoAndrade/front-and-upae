@@ -1,12 +1,6 @@
 import { CommonModule } from '@angular/common';
 
-import {
-  Component,
-  OnInit,
-  ChangeDetectorRef,
-   inject,
-  PLATFORM_ID
-} from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, inject, PLATFORM_ID } from '@angular/core';
 
 import { RouterModule } from '@angular/router';
 
@@ -18,17 +12,13 @@ import { isPlatformBrowser } from '@angular/common';
 
   standalone: true,
 
-  imports: [
-    CommonModule,
-    RouterModule
-  ],
+  imports: [CommonModule, RouterModule],
 
   templateUrl: './dashboard.html',
 
-  styleUrls: ['./dashboard.css']
+  styleUrls: ['./dashboard.css'],
 })
 export class Dashboard implements OnInit {
-  
   platformId = inject(PLATFORM_ID);
 
   nomeUsuario = '';
@@ -47,17 +37,14 @@ export class Dashboard implements OnInit {
 
   constructor(
     private service: DashboardService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
-
     if (isPlatformBrowser(this.platformId)) {
-
       const raw = localStorage.getItem('usuario');
 
       if (raw) {
-
         this.usuario = JSON.parse(raw);
 
         this.nomeUsuario = this.usuario?.nome;
@@ -76,25 +63,20 @@ export class Dashboard implements OnInit {
   }
 
   carregarTotais() {
+    this.service.buscarTotais().subscribe({
+      next: (res: any) => {
+        this.totalDiarias = Number(res.totalDiarias);
+        this.totalEspecialidades = Number(res.totalEspecialidades);
+        this.totalUsuarios = Number(res.totalUsuarios);
+        this.totalListaEspera = Number(res.totalListaEspera);
+        this.totalConfirmadosLista = Number(res.totalConfirmadosLista);
 
-    this.service.buscarTotais()
-      .subscribe({
-
-        next: (res: any) => {
-
-          this.totalDiarias = Number(res.totalDiarias);
-          this.totalEspecialidades = Number(res.totalEspecialidades);
-          this.totalUsuarios = Number(res.totalUsuarios);
-          this.totalListaEspera = Number(res.totalListaEspera);
-          this.totalConfirmadosLista = Number(res.totalConfirmadosLista);
-
-          this.cd.detectChanges();
-        }
-      });
+        this.cd.detectChanges();
+      },
+    });
   }
 
   logout() {
-    
-  localStorage.clear();
-}
+    localStorage.clear();
+  }
 }
