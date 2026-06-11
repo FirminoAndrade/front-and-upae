@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 
 import { DashboardService } from '../../core/services/dashboard';
 import { isPlatformBrowser } from '@angular/common';
+import { AuthService } from '../../core/services/auth';
 
 @Component({
   selector: 'app-dashboard',
@@ -38,21 +39,17 @@ export class Dashboard implements OnInit {
   constructor(
     private service: DashboardService,
     private cd: ChangeDetectorRef,
+    private authService: AuthService,
   ) {}
 
   ngOnInit(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      const raw = localStorage.getItem('usuario');
 
-      if (raw) {
-        this.usuario = JSON.parse(raw);
+  this.usuario = this.authService.usuario;
 
-        this.nomeUsuario = this.usuario?.nome;
-      }
-    }
+  this.nomeUsuario = this.usuario?.nome ?? '';
 
-    this.carregarTotais();
-  }
+  this.carregarTotais();
+}
 
   isAdmin(): boolean {
     return this.usuario?.perfil === 'ADMIN';
@@ -77,6 +74,7 @@ export class Dashboard implements OnInit {
   }
 
   logout() {
+    this.authService.usuario = null;
     localStorage.clear();
   }
 }

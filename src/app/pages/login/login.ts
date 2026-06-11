@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { finalize } from 'rxjs/operators';
+import { Usuario } from '../../shared/models/usuario.model';
 
 @Component({
   selector: 'app-login',
@@ -18,6 +19,8 @@ export class Login {
   login = '';
 
   senha = '';
+
+  usuario!: Usuario;
 
   erroLogin = '';
 
@@ -48,22 +51,16 @@ export class Login {
 
     this.authService
       .login(dados)
-
       .pipe(
         finalize(() => {
           this.loading = false;
         }),
       )
-
       .subscribe({
         next: (res: any) => {
-          const usuario = typeof res === 'string' ? JSON.parse(res) : res;
+          this.authService.usuario = res;
 
-          localStorage.setItem(
-            'usuario',
-
-            JSON.stringify(usuario),
-          );
+          sessionStorage.setItem('usuario', JSON.stringify(res));
 
           this.authService.mensagem('Login realizado com sucesso ✅');
 
@@ -82,7 +79,7 @@ export class Login {
       });
   }
 
-  buttonAgedar() {
+  buttonAgeda() {
     localStorage.clear();
 
     this.router.navigate(['/agenda']);

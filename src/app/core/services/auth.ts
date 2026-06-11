@@ -11,6 +11,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class AuthService {
   private api = `${API_CONFIG.baseUrl}/auth`;
 
+   usuario: any = null;
+
   constructor(
     private http: HttpClient,
     private _snack: MatSnackBar,
@@ -23,6 +25,7 @@ export class AuthService {
   }
 
   logout() {
+    this.usuario = null;
     localStorage.clear();
   }
 
