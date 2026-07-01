@@ -7,6 +7,7 @@ import { ListaEsperaService } from '../../core/services/lista-espera-service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { NgxMaskDirective } from 'ngx-mask';
+import { ProfissionalService } from '../../core/services/profissional';
 
 @Component({
   selector: 'app-lista-espera-component',
@@ -29,6 +30,10 @@ export class ListaEsperaComponent {
 
   dataNascimento = '';
 
+  dataSolicitada = '';
+
+  nomeMedico = '';
+
   especialidade = '';
 
   confirmado = false;
@@ -41,6 +46,8 @@ export class ListaEsperaComponent {
 
   dadosOriginais: any[] = [];
 
+  profissionais: any[] = [];
+
   displayedColumns = [
     'prontuario',
 
@@ -49,6 +56,10 @@ export class ListaEsperaComponent {
     'telefone',
 
     'dataNascimento',
+
+    'dataSolicitada',
+
+    'nomeMedico',
 
     'especialidade',
 
@@ -65,18 +76,32 @@ export class ListaEsperaComponent {
     private authService: AuthService,
 
     private especialidadeService: EspecialidadeService,
+
+    private profissionalService: ProfissionalService,
   ) {}
 
   ngOnInit(): void {
     this.listar();
 
     this.carregarEspecialidades();
+    this.carregarProfissionais();
   }
 
   carregarEspecialidades() {
     this.especialidadeService.listar().subscribe((res) => {
       this.especialidades = res;
     });
+  }
+
+  carregarProfissionais() {
+    this.profissionalService
+      .listar()
+
+      .subscribe({
+        next: (res) => {
+          this.profissionais = res;
+        },
+      });
   }
 
   listar() {
@@ -110,6 +135,10 @@ export class ListaEsperaComponent {
       telefone: this.telefone,
 
       dataNascimento: this.dataNascimento,
+
+      dataSolicitada: this.dataSolicitada,
+
+      nomeMedico: this.nomeMedico,
 
       especialidade: this.especialidade,
 
@@ -158,6 +187,10 @@ export class ListaEsperaComponent {
 
     this.dataNascimento = item.dataNascimento;
 
+    this.dataSolicitada = item.dataSolicitada;
+
+    this.nomeMedico = item.nomeMedico;
+
     this.especialidade = item.especialidade;
 
     this.confirmado = item.confirmado;
@@ -185,6 +218,10 @@ export class ListaEsperaComponent {
     this.telefone = '';
 
     this.dataNascimento = '';
+
+    this.dataSolicitada = '';
+
+    this.nomeMedico = '';
 
     this.especialidade = '';
 

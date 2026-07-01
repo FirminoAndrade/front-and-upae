@@ -19,10 +19,8 @@ export class AuthService {
   ) {}
 
   login(dados: LoginRequest): Observable<any> {
-    return this.http.post(`${this.api}/login`, dados, {
-      responseType: 'text',
-    });
-  }
+  return this.http.post(`${this.api}/login`, dados);
+}
 
   logout() {
     this.usuario = null;

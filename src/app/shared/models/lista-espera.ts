@@ -10,6 +10,10 @@ export interface ListaEspera {
 
   dataNascimento: string;
 
+  dataSolicitada: string;
+
+  nomeMedico: string;
+
   especialidade: string;
 
   confirmado: boolean;

@@ -22,8 +22,6 @@ import { AuthService } from '../../core/services/auth';
 export class Dashboard implements OnInit {
   platformId = inject(PLATFORM_ID);
 
-  nomeUsuario = '';
-
   usuario: any;
 
   dataAtual = new Date();
@@ -39,25 +37,27 @@ export class Dashboard implements OnInit {
   constructor(
     private service: DashboardService,
     private cd: ChangeDetectorRef,
-    private authService: AuthService,
+    public authService: AuthService,
   ) {}
 
   ngOnInit(): void {
 
   this.usuario = this.authService.usuario;
 
-  this.nomeUsuario = this.usuario?.nome ?? '';
-
   this.carregarTotais();
 }
 
   isAdmin(): boolean {
-    return this.usuario?.perfil === 'ADMIN';
-  }
+  return this.authService.usuario?.perfil === 'ADMIN';
+}
 
-  isUsuario(): boolean {
-    return this.usuario?.perfil === 'USUARIO';
-  }
+isRecepcao(): boolean {
+  return this.authService.usuario?.perfil === 'RECEPCAO';
+}
+
+isAuxiliarAdmin(): boolean {
+  return this.authService.usuario?.perfil === 'AUXILIAR_ADMIN';
+}
 
   carregarTotais() {
     this.service.buscarTotais().subscribe({
