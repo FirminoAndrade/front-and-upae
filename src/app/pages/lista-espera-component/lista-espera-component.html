@@ -1,62 +1,39 @@
 <div class="container mt-4">
-  <div class="card shadow p-4">
-    <h3 class="mb-4">Lista de Espera</h3>
+  <div class="card shadow p-3 mb-3 formulario-fixo">
+    <h5 class="mb-3">Lista de Espera</h5>
 
-    <div class="row g-3">
-      <div class="col-md-4">
-        <label class="form-label"> Nome </label>
+    <div class="row g-2">
+      <div class="col-md-3">
+        <label class="form-label">Nome</label>
+        <input type="text" class="form-control form-control-sm" [(ngModel)]="nome" />
+      </div>
 
-        <input type="text" class="form-control" [(ngModel)]="nome" />
+      <div class="col-md-1">
+        <label class="form-label">Pront.</label>
+        <input type="text" class="form-control form-control-sm" [(ngModel)]="prontuario" />
       </div>
 
       <div class="col-md-2">
-        <label class="form-label"> Prontuário </label>
-
-        <input type="text" class="form-control" [(ngModel)]="prontuario" />
+        <label class="form-label">Telefone</label>
+        <input
+          type="text"
+          class="form-control form-control-sm"
+          [(ngModel)]="telefone"
+          mask="(00) 00000-0000"
+        />
       </div>
 
-      <div class="col-md-3">
-        <label class="form-label"> Telefone </label>
-
-        <input type="text" class="form-control" [(ngModel)]="telefone" mask="(00) 00000-0000" />
+      <div class="col-md-2">
+        <label class="form-label">Nascimento</label>
+        <input type="date" class="form-control form-control-sm" [(ngModel)]="dataNascimento" />
       </div>
 
-      <div class="col-md-3">
-        <label class="form-label"> Data Nascimento </label>
-
-        <input type="date" class="form-control" [(ngModel)]="dataNascimento" />
+      <div class="col-md-2">
+        <label class="form-label">Solicitação</label>
+        <input type="date" class="form-control form-control-sm" [(ngModel)]="dataSolicitada" />
       </div>
 
-      <div class="col-md-3">
-        <label class="form-label"> Data Solicitada </label>
-
-        <input type="date" class="form-control" [(ngModel)]="dataSolicitada" />
-      </div>
-      <div class="col-md-6">
-        <label class="form-label"> Médico Solicitante </label>
-
-        <select class="form-select" [(ngModel)]="nomeMedico">
-          <option value="">Selecione</option>
-
-          <option *ngFor="let item of profissionais" [value]="item.nome">
-            {{ item.nome }}
-          </option>
-        </select>
-      </div>
-
-      <div class="col-md-6">
-        <label class="form-label"> Especialidade </label>
-
-        <select class="form-select" [(ngModel)]="especialidade">
-          <option value="">Selecione</option>
-
-          <option *ngFor="let item of especialidades" [value]="item.nome">
-            {{ item.nome }}
-          </option>
-        </select>
-      </div>
-
-      <div class="col-md-3 d-flex align-items-end">
+      <div class="col-md-2 d-flex align-items-end">
         <div class="form-check">
           <input
             class="form-check-input"
@@ -69,28 +46,65 @@
         </div>
       </div>
 
-      <div class="col-md-12 d-flex gap-2">
-        <button class="btn btn-primary" (click)="salvar()">
+      <div class="col-md-4">
+        <label class="form-label">Médico Solicitante</label>
+
+        <select class="form-select form-select-sm" [(ngModel)]="nomeMedico">
+          <option value="">Selecione</option>
+
+          <option *ngFor="let item of profissionais" [value]="item.nome">
+            {{ item.nome }}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label">Especialidade</label>
+
+        <select class="form-select form-select-sm" [(ngModel)]="especialidade">
+          <option value="">Selecione</option>
+
+          <option *ngFor="let item of especialidades" [value]="item.nome">
+            {{ item.nome }}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-md-4 d-flex align-items-end justify-content-end gap-2">
+        <button class="btn btn-primary btn-sm px-4" (click)="salvar()">
           {{ idEdicao ? 'Atualizar' : 'Salvar' }}
         </button>
 
-        <button class="btn btn-secondary" (click)="cancelar()">Cancelar</button>
+        <button class="btn btn-secondary btn-sm" (click)="cancelar()">Cancelar</button>
       </div>
     </div>
   </div>
 
-  <div class="card shadow p-4 mt-4">
-    <h4 class="mb-3">Pacientes em Espera</h4>
+  <!-- ================= FILTROS ================= -->
+  <div class="card shadow p-3 mb-3 filtros-card">
+    <h4 class="mb-3">Filtros</h4>
 
-    <div class="row mb-3">
+    <div class="row g-2">
       <div class="col-md-4">
-        <label class="form-label"> Nome ou Prontuário </label>
+        <label class="form-label">Nome ou Prontuário</label>
 
         <input type="text" class="form-control" [(ngModel)]="filtroNome" (keyup)="filtrar()" />
       </div>
 
       <div class="col-md-4">
-        <label class="form-label"> Especialidade </label>
+        <label class="form-label">Médico</label>
+
+        <select class="form-select" [(ngModel)]="filtroMedico" (change)="filtrar()">
+          <option value="">Todos</option>
+
+          <option *ngFor="let item of profissionais" [value]="item.nome">
+            {{ item.nome }}
+          </option>
+        </select>
+      </div>
+
+      <div class="col-md-4">
+        <label class="form-label">Especialidade</label>
 
         <select class="form-select" [(ngModel)]="filtroEspecialidade" (change)="filtrar()">
           <option value="">Todas</option>
@@ -101,35 +115,31 @@
         </select>
       </div>
     </div>
+  </div>
 
-    <div class="tabela-scroll">
+  <!-- ================= LISTA ================= -->
+  <div class="card shadow p-4 card-lista">
+    <h4 class="mb-3">Pacientes em Espera</h4>
+
+    <div class="lista-scroll">
       <table mat-table [dataSource]="dataSource" class="table table-striped">
         <ng-container matColumnDef="prontuario">
           <th mat-header-cell *matHeaderCellDef>Prontuário</th>
-
-          <td mat-cell *matCellDef="let item">
-            {{ item.prontuario }}
-          </td>
+          <td mat-cell *matCellDef="let item">{{ item.prontuario }}</td>
         </ng-container>
 
         <ng-container matColumnDef="nome">
           <th mat-header-cell *matHeaderCellDef>Nome</th>
-
-          <td mat-cell *matCellDef="let item">
-            {{ item.nome }}
-          </td>
+          <td mat-cell *matCellDef="let item">{{ item.nome }}</td>
         </ng-container>
 
         <ng-container matColumnDef="telefone">
           <th mat-header-cell *matHeaderCellDef>Telefone</th>
-
-          <td mat-cell *matCellDef="let item">
-            {{ item.telefone }}
-          </td>
+          <td mat-cell *matCellDef="let item">{{ item.telefone }}</td>
         </ng-container>
 
         <ng-container matColumnDef="dataNascimento">
-          <th mat-header-cell *matHeaderCellDef>Data Nascimento</th>
+          <th mat-header-cell *matHeaderCellDef>Nascimento</th>
 
           <td mat-cell *matCellDef="let item">
             {{ item.dataNascimento | date: 'dd/MM/yyyy' }}
@@ -189,10 +199,10 @@
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
       </table>
     </div>
+
     <mat-paginator [pageSize]="10" [pageSizeOptions]="[10, 20, 50]"> </mat-paginator>
   </div>
 </div>

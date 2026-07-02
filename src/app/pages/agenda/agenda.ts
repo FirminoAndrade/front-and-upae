@@ -12,6 +12,7 @@ import { provideCalendar } from 'angular-calendar';
 import { AgendaService } from '../../core/services/agendaservice';
 import { EspecialidadeService } from '../../core/services/especialidade';
 import { ProfissionalService } from '../../core/services/profissional';
+import { AuthService } from '../../core/services/auth';
 
 @Component({
   selector: 'app-agenda',
@@ -70,7 +71,7 @@ export class AgendaComponent implements OnInit {
   constructor(
     private service: AgendaService,
     private cd: ChangeDetectorRef,
-
+    private authService: AuthService,
     private especialidadeService: EspecialidadeService,
 
     private profissionalService: ProfissionalService,
@@ -79,13 +80,7 @@ export class AgendaComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      const raw = localStorage.getItem('usuario');
-
-      if (raw) {
-        this.usuario = JSON.parse(raw);
-      }
-    }
+    this.usuario = this.authService.usuario;
 
     this.carregarEspecialidades();
 
@@ -103,7 +98,7 @@ export class AgendaComponent implements OnInit {
   }
 
   podeEditarAgenda(): boolean {
-    return !!this.usuario && (this.isAdmin() || this.isAuxiliarAdmin());
+    return this.isAdmin() || this.isAuxiliarAdmin();
   }
 
   carregarEspecialidades() {

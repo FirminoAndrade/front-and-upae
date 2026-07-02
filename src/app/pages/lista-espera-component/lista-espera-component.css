@@ -1,14 +1,16 @@
 .container {
   max-width: 98%;
   padding: 10px;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .card {
   margin-bottom: 10px !important;
 }
 
-.card-body,
 .card,
+.card-body,
 .card-header {
   padding: 10px !important;
 }
@@ -47,6 +49,7 @@ h4 {
 
 table {
   font-size: 12px;
+  margin-bottom: 0;
 }
 
 .mat-mdc-header-cell,
@@ -64,11 +67,63 @@ tr.mat-mdc-row {
 
 html,
 body {
-  overflow: hidden;
   height: 100%;
+  overflow: hidden;
 }
 
-.tabela-scroll {
-  max-height: 55vh;
+.formulario-fixo {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: #fff;
+}
+
+.filtros-card {
+  position: sticky;
+  top: 200px;
+  z-index: 999;
+  background: #fff;
+}
+
+.card-lista {
+  position: sticky;
+  top: 300px;
+  z-index: 998;
+
+  background: #fff;
+
+  height: calc(100vh - 315px);
+
+  display: flex;
+  flex-direction: column;
+}
+
+.lista-scroll {
+  flex: 1;
   overflow-y: auto;
+  overflow-x: auto;
+}
+
+.mat-mdc-header-row {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: #fff;
+}
+
+.mat-mdc-header-cell {
+  background: #fff;
+}
+
+.lista-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+
+.lista-scroll::-webkit-scrollbar-thumb {
+  background: #bdbdbd;
+  border-radius: 10px;
+}
+
+.lista-scroll::-webkit-scrollbar-thumb:hover {
+  background: #9e9e9e;
 }

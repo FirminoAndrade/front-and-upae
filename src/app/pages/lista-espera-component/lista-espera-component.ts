@@ -40,6 +40,8 @@ export class ListaEsperaComponent {
 
   filtroNome = '';
 
+  filtroMedico = '';
+
   filtroEspecialidade = '';
 
   especialidades: any[] = [];
@@ -117,14 +119,27 @@ export class ListaEsperaComponent {
   }
 
   ordenarLista(lista: any[]) {
-    return lista.sort((a, b) => {
-      if (a.confirmado !== b.confirmado) {
-        return a.confirmado ? 1 : -1;
-      }
+  return lista.sort((a, b) => {
 
-      return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
-    });
-  }
+    if (a.confirmado !== b.confirmado) {
+      return a.confirmado ? 1 : -1;
+    }
+
+    const dataSolicitada =
+      new Date(a.dataSolicitada).getTime() -
+      new Date(b.dataSolicitada).getTime();
+
+    if (dataSolicitada !== 0) {
+      return dataSolicitada;
+    }
+
+    return (
+      new Date(a.createdAt).getTime() -
+      new Date(b.createdAt).getTime()
+    );
+
+  });
+}
 
   salvar() {
     const item = {
@@ -229,20 +244,32 @@ export class ListaEsperaComponent {
   }
 
   filtrar() {
-    let dados = [...this.dadosOriginais];
+  let dados = [...this.dadosOriginais];
 
-    if (this.filtroNome) {
-      dados = dados.filter(
-        (x) =>
-          x.nome.toLowerCase().includes(this.filtroNome.toLowerCase()) ||
-          x.prontuario.includes(this.filtroNome),
-      );
-    }
-
-    if (this.filtroEspecialidade) {
-      dados = dados.filter((x) => x.especialidade === this.filtroEspecialidade);
-    }
-
-    this.dataSource.data = this.ordenarLista(dados);
+  if (this.filtroNome) {
+    dados = dados.filter(
+      (x) =>
+        x.nome.toLowerCase().includes(this.filtroNome.toLowerCase()) ||
+        x.prontuario.includes(this.filtroNome),
+    );
   }
+
+  if (this.filtroEspecialidade) {
+    dados = dados.filter(
+      (x) => x.especialidade === this.filtroEspecialidade,
+    );
+  }
+
+  if (this.filtroMedico) {
+    dados = dados.filter(
+      (x) => x.nomeMedico === this.filtroMedico,
+    );
+  }
+
+  this.dataSource.data = this.ordenarLista(dados);
+
+  if (this.paginator) {
+    this.paginator.firstPage();
+  }
+}
 }
