@@ -1,206 +1,246 @@
 <div class="container-fluid no-print">
-  <div *ngIf="podeEditarAgenda()">
-    <div class="card shadow p-3 mb-3">
-      <h4 class="mb-2">Cadastro de Agenda</h4>
 
-      <div class="row g-2">
-        <div class="col-md-2">
-          <input type="date" class="form-control" [(ngModel)]="data" />
+  <!-- ================= CADASTRO ================= -->
+
+  <div class="row" *ngIf="podeEditarAgenda()">
+    <div class="col-12">
+
+      <div class="card shadow cadastro-card">
+
+        <div class="card-header">
+          <h5 class="m-0">Cadastro de Agenda</h5>
         </div>
 
-        <div class="col-md-4">
-          <select class="form-select" [(ngModel)]="especialidade">
-            <option value="">Especialidade</option>
+        <div class="card-body">
 
-            <option *ngFor="let item of especialidades" [value]="item.nome">
-              {{ item.nome }}
-            </option>
-          </select>
+          <div class="row g-2">
+
+            <div class="col-xl-2 col-lg-3 col-md-6">
+              <input
+                type="date"
+                class="form-control"
+                [(ngModel)]="data">
+            </div>
+
+            <div class="col-xl-4 col-lg-5 col-md-6">
+              <select
+                class="form-select"
+                [(ngModel)]="especialidade">
+
+                <option value="">Especialidade</option>
+
+                <option
+                  *ngFor="let item of especialidades"
+                  [value]="item.nome">
+
+                  {{ item.nome }}
+
+                </option>
+
+              </select>
+            </div>
+
+            <div class="col-xl-4 col-lg-4 col-md-6">
+              <select
+                class="form-select"
+                [(ngModel)]="profissional">
+
+                <option value="">Profissional</option>
+
+                <option
+                  *ngFor="let item of profissionais"
+                  [value]="item.nome">
+
+                  {{ item.nome }}
+
+                </option>
+
+              </select>
+            </div>
+
+            <div class="col-xl-2 col-lg-3 col-md-6">
+              <select
+                class="form-select"
+                [(ngModel)]="turno">
+
+                <option value="">Turno</option>
+
+                <option value="MANHA">
+                  Manhã
+                </option>
+
+                <option value="TARDE">
+                  Tarde
+                </option>
+
+              </select>
+            </div>
+
+            <div class="col-xl-3 col-lg-4 col-md-6">
+              <input
+                type="number"
+                class="form-control"
+                placeholder="Agendados"
+                [(ngModel)]="agendados">
+            </div>
+
+            <div class="col-xl-3 col-lg-4 col-md-6 d-flex align-items-center">
+
+              <div class="form-check">
+
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  [(ngModel)]="confirmado"
+                  id="confirmadoAgenda">
+
+                <label
+                  class="form-check-label ms-2"
+                  for="confirmadoAgenda">
+
+                  Confirmado
+
+                </label>
+
+              </div>
+
+            </div>
+
+            <div class="col-xl-6 col-lg-4 col-md-12 d-flex gap-2">
+
+              <button
+                class="btn btn-primary"
+                (click)="salvar()">
+
+                {{ idEdicao ? 'Atualizar' : 'Salvar' }}
+
+              </button>
+
+              <button
+                class="btn btn-secondary"
+                (click)="cancelar()">
+
+                Cancelar
+
+              </button>
+
+            </div>
+
+          </div>
+
         </div>
 
-        <div class="col-md-4">
-          <select class="form-select" [(ngModel)]="profissional">
-            <option value="">Profissional</option>
-
-            <option *ngFor="let item of profissionais" [value]="item.nome">
-              {{ item.nome }}
-            </option>
-          </select>
-        </div>
-
-        <div class="col-md-2">
-          <select class="form-select" [(ngModel)]="turno">
-            <option value="">Turno</option>
-
-            <option value="MANHA">Manhã</option>
-
-            <option value="TARDE">Tarde</option>
-          </select>
-        </div>
-
-        <div class="col-md-3">
-          <input
-            type="number"
-            class="form-control"
-            placeholder="Agendados"
-            [(ngModel)]="agendados"
-          />
-        </div>
-
-        <div class="col-md-3 d-flex align-items-center">
-          <input type="checkbox" class="form-check-input me-2" [(ngModel)]="confirmado" />
-
-          Confirmado
-        </div>
-
-        <div class="col-md-6 d-flex gap-2">
-          <button class="btn btn-primary" (click)="salvar()">
-            {{ idEdicao ? 'Atualizar' : 'Salvar' }}
-          </button>
-
-          <button class="btn btn-secondary" (click)="cancelar()">Cancelar</button>
-        </div>
       </div>
+
     </div>
   </div>
 
-  <div class="row">
-    <div class="col-md-5">
-      <div class="card shadow p-3 calendario-card">
-        <h4 class="mb-3">Agenda Mensal</h4>
 
-        <div class="d-flex justify-content-between align-items-center mb-3">
+  <div class="row g-3">
+  <!-- Calendário -->
+  <div class="col-12 col-lg-8">
+    <div class="card shadow calendario-card h-100">
+      <div class="card-body">
+
+        <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+
           <div class="d-flex gap-2">
             <button class="btn btn-outline-primary btn-sm" (click)="mesAnterior()">
               <i class="bi bi-chevron-left"></i>
             </button>
 
-            <button class="btn btn-outline-primary btn-sm" (click)="hoje()">Hoje</button>
+            <button class="btn btn-outline-primary btn-sm" (click)="hoje()">
+              Hoje
+            </button>
 
             <button class="btn btn-outline-primary btn-sm" (click)="proximoMes()">
               <i class="bi bi-chevron-right"></i>
             </button>
           </div>
 
-          <div class="w-100 position-relative d-flex justify-content-center align-items-center">
-            <h3 class="m-0 text-capitalize fw-bold">
-              {{ viewDate | date: 'MMMM yyyy' : '' : 'pt-BR' }}
-            </h3>
+          <h4 class="fw-bold text-capitalize m-0">
+            {{ viewDate | date:'MMMM yyyy':'':'pt-BR' }}
+          </h4>
 
-            <button
-              class="btn btn-success position-absolute end-0"
-              style="padding: 5px 12px"
-              (click)="imprimirAgenda()"
-            >
-              <i class="bi bi-printer"></i>
-            </button>
-          </div>
+          <button
+            class="btn btn-success btn-sm"
+            (click)="imprimirAgenda()">
+            <i class="bi bi-printer"></i>
+          </button>
+
         </div>
 
         <mwl-calendar-month-view
           [viewDate]="viewDate"
           [events]="events"
           [locale]="locale"
-          (dayClicked)="dayClicked($event.day)"
-        >
+          (dayClicked)="dayClicked($event.day)">
         </mwl-calendar-month-view>
-      </div>
-    </div>
 
-    <div class="col-md-4">
-      <div class="card shadow agenda-lateral">
-        <div class="card-header py-2">
-          <h6 class="m-0">Agenda do Dia</h6>
-        </div>
-
-        <div class="agenda-scroll">
-          <div class="card mb-2 cursor-pointer agenda-item" *ngFor="let item of agendasDia">
-            <div class="card-body p-2">
-              <div class="d-flex justify-content-between align-items-start">
-                <div class="flex-grow-1" (click)="editar(item)">
-                  <h6 class="mb-1">
-                    {{ item.especialidade }}
-                  </h6>
-
-                  <small class="d-block">
-                    {{ item.profissional }}
-                  </small>
-
-                  <small class="d-block"> {{ item.agendados }} agendados </small>
-
-                  <small>
-                    {{ item.turno === 'MANHA' ? 'Manhã' : 'Tarde' }}
-                  </small>
-                </div>
-
-                <button
-                  *ngIf="podeEditarAgenda()"
-                  class="btn btn-sm btn-danger"
-                  (click)="remover(item.id); $event.stopPropagation()"
-                >
-                  <i class="bi bi-trash"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
-</div>
 
-<div class="print-area">
-  <h2 class="text-center mb-4">Agenda Mensal</h2>
+  <!-- Agenda do Dia -->
+  <div class="col-12 col-lg-4">
 
-  <h4 class="text-center mb-4 text-capitalize">
-    {{ viewDate | date: 'MMMM yyyy' : '' : 'pt-BR' }}
-  </h4>
+    <div class="card shadow agenda-lateral h-100">
 
-  <div *ngFor="let grupo of agendasAgrupadas">
-    <div class="mb-4">
-      <h5 class="border-bottom pb-2">
-        {{ grupo.data | date: 'dd/MM/yyyy' }}
-      </h5>
+      <div class="card-header">
+        <h6 class="m-0">Agenda do Dia</h6>
+      </div>
 
-      <table class="table table-bordered">
-        <thead>
-          <tr>
-            <th>Especialidade</th>
+      <div class="agenda-scroll">
 
-            <th>Profissional</th>
+        <div
+          class="card mb-2 agenda-item cursor-pointer"
+          *ngFor="let item of agendasDia">
 
-            <th>Turno</th>
+          <div class="card-body">
 
-            <th>Agendados</th>
+            <div class="d-flex justify-content-between">
 
-            <th>Confirmado</th>
-          </tr>
-        </thead>
+              <div class="flex-grow-1" (click)="editar(item)">
 
-        <tbody>
-          <tr *ngFor="let item of grupo.itens">
-            <td>
-              {{ item.especialidade }}
-            </td>
+                <h6 class="fw-bold mb-1">
+                  {{ item.especialidade }}
+                </h6>
 
-            <td>
-              {{ item.profissional }}
-            </td>
+                <small class="d-block">
+                  <strong>Profissional:</strong>
+                  {{ item.profissional }}
+                </small>
 
-            <td>
-              {{ item.turno }}
-            </td>
+                <small class="d-block">
+                  <strong>Agendados:</strong>
+                  {{ item.agendados }}
+                </small>
 
-            <td>
-              {{ item.agendados }}
-            </td>
+                <small class="d-block">
+                  <strong>Turno:</strong>
+                  {{ item.turno === 'MANHA' ? 'Manhã' : 'Tarde' }}
+                </small>
 
-            <td>
-              {{ item.confirmado ? 'SIM' : 'NÃO' }}
-            </td>
-          </tr>
-        </tbody>
-      </table>
+              </div>
+
+              <button
+                *ngIf="podeEditarAgenda()"
+                class="btn btn-sm btn-danger align-self-start"
+                (click)="remover(item.id); $event.stopPropagation()">
+
+                <i class="bi bi-trash"></i>
+
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
     </div>
+
   </div>
 </div>
