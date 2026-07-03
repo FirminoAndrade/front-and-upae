@@ -62,7 +62,7 @@ export class AgendaComponent implements OnInit {
 
   profissional = '';
 
-  agendados!: number;
+  agendados: number | null = null;
 
   confirmado = false;
 
@@ -102,26 +102,28 @@ export class AgendaComponent implements OnInit {
   }
 
   carregarEspecialidades() {
-    this.especialidadeService
-      .listar()
-
-      .subscribe({
-        next: (res) => {
-          this.especialidades = res;
-        },
-      });
-  }
+  this.especialidadeService.listar().subscribe({
+    next: (res) => {
+      this.especialidades = res.sort((a: any, b: any) =>
+        a.nome.localeCompare(b.nome, 'pt-BR', {
+          sensitivity: 'base',
+        }),
+      );
+    },
+  });
+}
 
   carregarProfissionais() {
-    this.profissionalService
-      .listar()
-
-      .subscribe({
-        next: (res) => {
-          this.profissionais = res;
-        },
-      });
-  }
+  this.profissionalService.listar().subscribe({
+    next: (res) => {
+      this.profissionais = res.sort((a: any, b: any) =>
+        a.nome.localeCompare(b.nome, 'pt-BR', {
+          sensitivity: 'base',
+        }),
+      );
+    },
+  });
+}
 
   listar() {
     this.service.listar().subscribe({
@@ -256,7 +258,7 @@ export class AgendaComponent implements OnInit {
 
     this.turno = '';
 
-    this.agendados = 0;
+   this.agendados = null;
 
     this.confirmado = false;
   }
