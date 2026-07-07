@@ -47,17 +47,17 @@ body {
 
 .form-control,
 .form-select {
-  height: 34px;
-  font-size: 13px;
+  height: 32px;
+  font-size: 12px;
 }
 
 .form-check-label {
-  font-size: 13px;
+  font-size: 12px;
 }
 
 .btn {
-  height: 34px;
-  font-size: 13px;
+  height: 32px;
+  font-size: 12px;
 }
 
 /* ===========================
@@ -145,6 +145,31 @@ body {
 
 .agenda-item small {
   font-size: .75rem;
+}
+
+.agenda-confirmada {
+  background: #dd883e; 
+  border-left: 6px solid #c96a15;
+}
+
+.agenda-pendente {
+  background: #4db67b; 
+  border-left: 6px solid #1f6f43;
+}
+
+.agenda-confirmada h6,
+.agenda-confirmada small,
+.agenda-confirmada strong,
+.agenda-confirmada .card-body,
+.agenda-pendente h6,
+.agenda-pendente small,
+.agenda-pendente strong,
+.agenda-pendente .card-body {
+  color: #fff;
+}
+
+.agenda-confirmada .btn-danger {
+  border-color: #fff;
 }
 
 /* ===========================

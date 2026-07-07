@@ -9,8 +9,8 @@
       </div>
 
       <div class="col-md-1">
-        <label class="form-label">Pront.</label>
-        <input type="text" class="form-control form-control-sm" [(ngModel)]="prontuario" />
+        <label class="form-label">Prontuário</label>
+        <input type="number" class="form-control form-control-sm" [(ngModel)]="prontuario" />
       </div>
 
       <div class="col-md-2">
@@ -24,12 +24,12 @@
       </div>
 
       <div class="col-md-2">
-        <label class="form-label">Nascimento</label>
+        <label class="form-label">Data de Nascimento</label>
         <input type="date" class="form-control form-control-sm" [(ngModel)]="dataNascimento" />
       </div>
 
       <div class="col-md-2">
-        <label class="form-label">Solicitação</label>
+        <label class="form-label">Data de Solicitação</label>
         <input type="date" class="form-control form-control-sm" [(ngModel)]="dataSolicitada" />
       </div>
 
@@ -42,7 +42,7 @@
             id="confirmado"
           />
 
-          <label class="form-check-label" for="confirmado"> Confirmado </label>
+          <label class="form-check-label" for="confirmado"> Confirmação </label>
         </div>
       </div>
 
@@ -92,7 +92,7 @@
       </div>
 
       <div class="col-md-4">
-        <label class="form-label">Médico</label>
+        <label class="form-label">Nome do Médico</label>
 
         <select class="form-select" [(ngModel)]="filtroMedico" (change)="filtrar()">
           <option value="">Todos</option>
@@ -129,7 +129,7 @@
         </ng-container>
 
         <ng-container matColumnDef="nome">
-          <th mat-header-cell *matHeaderCellDef>Nome</th>
+          <th mat-header-cell *matHeaderCellDef>Nome do Paciente</th>
           <td mat-cell *matCellDef="let item">{{ item.nome }}</td>
         </ng-container>
 
@@ -139,7 +139,7 @@
         </ng-container>
 
         <ng-container matColumnDef="dataNascimento">
-          <th mat-header-cell *matHeaderCellDef>Nascimento</th>
+          <th mat-header-cell *matHeaderCellDef>Data de Nascimento</th>
 
           <td mat-cell *matCellDef="let item">
             {{ item.dataNascimento | date: 'dd/MM/yyyy' }}
@@ -155,7 +155,7 @@
         </ng-container>
 
         <ng-container matColumnDef="nomeMedico">
-          <th mat-header-cell *matHeaderCellDef>Médico</th>
+          <th mat-header-cell *matHeaderCellDef>Nome do Médico</th>
 
           <td mat-cell *matCellDef="let item">
             {{ item.nomeMedico }}
@@ -171,7 +171,7 @@
         </ng-container>
 
         <ng-container matColumnDef="confirmado">
-          <th mat-header-cell *matHeaderCellDef>Confirmado</th>
+          <th mat-header-cell *matHeaderCellDef>Confirmação</th>
 
           <td mat-cell *matCellDef="let item">
             <span

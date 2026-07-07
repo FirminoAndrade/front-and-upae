@@ -1,1 +1,11 @@
 @import "../node_modules/angular-calendar/css/angular-calendar.css";
+
+
+.cal-month-view .cal-today {
+    background-color: #66baff !important;
+}
+
+.cal-month-view .cal-today .cal-day-number {
+    color: #000 !important;
+    font-weight: bold;
+}

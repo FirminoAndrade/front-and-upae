@@ -9,69 +9,67 @@
         </div>
 
         <div class="card-body">
-          <div class="row g-2">
-            <div class="col-xl-2 col-lg-3 col-md-6">
-              <input type="date" class="form-control" [(ngModel)]="data" />
+          <div class="row gx-2 gy-2 align-items-center flex-nowrap">
+            <div class="col-auto">
+              <input type="date" class="form-control" style="width: 145px" [(ngModel)]="data" />
             </div>
 
-            <div class="col-xl-4 col-lg-5 col-md-6">
-              <select class="form-select" [(ngModel)]="especialidade">
+            <div class="col-auto">
+              <select class="form-select" style="width: 300px" [(ngModel)]="especialidade">
                 <option value="">Especialidade</option>
-
                 <option *ngFor="let item of especialidades" [value]="item.nome">
                   {{ item.nome }}
                 </option>
               </select>
             </div>
 
-            <div class="col-xl-4 col-lg-4 col-md-6">
-              <select class="form-select" [(ngModel)]="profissional">
+            <div class="col-auto">
+              <select class="form-select" style="width: 300px" [(ngModel)]="profissional">
                 <option value="">Profissional</option>
-
                 <option *ngFor="let item of profissionais" [value]="item.nome">
                   {{ item.nome }}
                 </option>
               </select>
             </div>
 
-            <div class="col-xl-2 col-lg-3 col-md-6">
-              <select class="form-select" [(ngModel)]="turno">
+            <div class="col-auto">
+              <select class="form-select" style="width: 150px" [(ngModel)]="turno">
                 <option value="">Turno</option>
-
                 <option value="MANHA">Manhã</option>
-
                 <option value="TARDE">Tarde</option>
               </select>
             </div>
 
-            <div class="col-xl-3 col-lg-4 col-md-6">
+            <div class="col-auto">
               <input
                 type="number"
                 class="form-control"
                 placeholder="Agendados"
+                style="width: 110px"
                 [(ngModel)]="agendados"
               />
             </div>
 
-            <div class="col-xl-3 col-lg-4 col-md-6 d-flex align-items-center">
-              <div class="form-check">
+            <div class="col-auto">
+              <div class="form-check m-0">
                 <input
                   class="form-check-input"
                   type="checkbox"
                   [(ngModel)]="confirmado"
                   id="confirmadoAgenda"
                 />
-
-                <label class="form-check-label ms-2" for="confirmadoAgenda"> Confirmado </label>
+                <label class="form-check-label ms-1" for="confirmadoAgenda"> Exame </label>
               </div>
             </div>
 
-            <div class="col-xl-6 col-lg-4 col-md-12 d-flex gap-2">
-              <button class="btn btn-primary" (click)="salvar()">
+            <div class="col-auto d-flex gap-2 ms-4">
+              <button class="btn btn-primary" style="width: 150px" (click)="salvar()">
                 {{ idEdicao ? 'Atualizar' : 'Salvar' }}
               </button>
 
-              <button class="btn btn-secondary" (click)="cancelar()">Cancelar</button>
+              <button class="btn btn-secondary" style="width: 150px" (click)="cancelar()">
+                Cancelar
+              </button>
             </div>
           </div>
         </div>
@@ -125,7 +123,11 @@
         </div>
 
         <div class="agenda-scroll">
-          <div class="card mb-2 agenda-item cursor-pointer" *ngFor="let item of agendasDia">
+          <div
+            class="card mb-2 agenda-item cursor-pointer"
+            [ngClass]="item.confirmado ? 'agenda-confirmada' : 'agenda-pendente'"
+            *ngFor="let item of agendasDia"
+          >
             <div class="card-body">
               <div class="d-flex justify-content-between">
                 <div class="flex-grow-1" (click)="editar(item)">
@@ -165,35 +167,34 @@
   </div>
 </div>
 
-  <div class="print-area">
-    <h2 class="text-center mb-4">Agenda Mensal</h2>
-    <h4 class="text-center mb-4 text-capitalize">
-      {{ viewDate | date: 'MMMM yyyy' : '' : 'pt-BR' }}
-    </h4>
-    <div *ngFor="let grupo of agendasAgrupadas">
-      <div class="mb-4">
-        <h5 class="border-bottom pb-2">{{ grupo.data | date: 'dd/MM/yyyy' }}</h5>
-        <table class="table table-bordered">
-          <thead>
-            <tr>
-              <th>Especialidade</th>
-              <th>Profissional</th>
-              <th>Turno</th>
-              <th>Agendados</th>
-              <th>Confirmado</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let item of grupo.itens">
-              <td>{{ item.especialidade }}</td>
-              <td>{{ item.profissional }}</td>
-              <td>{{ item.turno }}</td>
-              <td>{{ item.agendados }}</td>
-              <td>{{ item.confirmado ? 'SIM' : 'NÃO' }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+<div class="print-area">
+  <h2 class="text-center mb-4">Agenda Mensal</h2>
+  <h4 class="text-center mb-4 text-capitalize">
+    {{ viewDate | date: 'MMMM yyyy' : '' : 'pt-BR' }}
+  </h4>
+  <div *ngFor="let grupo of agendasAgrupadas">
+    <div class="mb-4">
+      <h5 class="border-bottom pb-2">{{ grupo.data | date: 'dd/MM/yyyy' }}</h5>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Especialidade</th>
+            <th>Profissional</th>
+            <th>Turno</th>
+            <th>Agendados</th>
+            <th>Confirmado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of grupo.itens">
+            <td>{{ item.especialidade }}</td>
+            <td>{{ item.profissional }}</td>
+            <td>{{ item.turno }}</td>
+            <td>{{ item.agendados }}</td>
+            <td>{{ item.confirmado ? 'SIM' : 'NÃO' }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
-
+</div>

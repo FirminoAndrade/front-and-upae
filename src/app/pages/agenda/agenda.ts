@@ -174,7 +174,7 @@ export class AgendaComponent implements OnInit {
       title: '',
 
       color: {
-        primary: item.confirmado ? '#198754' : '#dc3545',
+        primary: item.confirmado ? '#dc8035' : '#198754',
 
         secondary: '#f8f9fa',
       },
